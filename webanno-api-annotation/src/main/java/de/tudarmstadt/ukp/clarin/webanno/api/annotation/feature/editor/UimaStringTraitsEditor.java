@@ -20,6 +20,7 @@ package de.tudarmstadt.ukp.clarin.webanno.api.annotation.feature.editor;
 import static de.tudarmstadt.ukp.clarin.webanno.support.lambda.LambdaBehavior.visibleWhen;
 
 import java.io.Serializable;
+import java.util.regex.Pattern;
 
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -34,6 +35,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import com.googlecode.wicket.kendo.ui.form.NumberTextField;
+import com.googlecode.wicket.kendo.ui.form.TextField;
 
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.select.BootstrapSelect;
 import de.tudarmstadt.ukp.clarin.webanno.api.AnnotationSchemaService;
@@ -78,9 +80,17 @@ public class UimaStringTraitsEditor
             protected void onSubmit()
             {
                 super.onSubmit();
+                
+                final Pattern pattern = Pattern.compile(traits.getObject().getRegularExpression());
                 if (traits.getObject().isMultipleRows()) {
                     feature.getObject().setTagset(null);
                 }
+                
+                if (!pattern.matcher(aFeature.getObject().getTraits()).matches()) {
+                	throw new IllegalArgumentException(" This does not matches the provided regular expression [" + traits.getObject().getRegularExpression()
+                            + "]");
+                }
+               
                 writeTraits();
             }
         };
@@ -98,6 +108,12 @@ public class UimaStringTraitsEditor
         expandedRows.setMinimum(1);
         expandedRows.add(visibleWhen(() -> traits.getObject().isMultipleRows()));
         form.add(expandedRows);
+    
+        TextField<String> regularExpression=new TextField<String>("regularExpression",String.class);
+        regularExpression.setModel(PropertyModel.of(traits, "regularExpression"));
+        form.add(regularExpression);
+    
+        
         
         DropDownChoice<TagSet> tagset = new BootstrapSelect<>("tagset");
         tagset.setOutputMarkupPlaceholderTag(true);
@@ -136,6 +152,7 @@ public class UimaStringTraitsEditor
         result.setMultipleRows(t.isMultipleRows());
         result.setCollapsedRows(t.getCollapsedRows());
         result.setExpandedRows(t.getExpandedRows());
+        result.setRegularExpression(t.getRegularExpression());
                 
         return result;
     }
@@ -151,7 +168,7 @@ public class UimaStringTraitsEditor
         t.setMultipleRows(traits.getObject().isMultipleRows());
         t.setCollapsedRows(traits.getObject().getCollapsedRows());
         t.setExpandedRows(traits.getObject().getExpandedRows());
-        
+        t.setRegularExpression(traits.getObject().getRegularExpression());
         getFeatureSupport().writeUimaStringTraits(feature.getObject(), t);
     }
     
@@ -167,7 +184,7 @@ public class UimaStringTraitsEditor
         private boolean multipleRows = false;
         private int collapsedRows = 1;
         private int expandedRows = 1;
-    
+        private String regularExpression=null;
         public boolean isMultipleRows()
         {
             return multipleRows;
@@ -181,6 +198,15 @@ public class UimaStringTraitsEditor
         public int getCollapsedRows()
         {
             return collapsedRows;
+        }
+        
+        public String getRegularExpression()
+        {
+            return regularExpression;
+        }
+        public void setRegularExpression(String regularExpression)
+        {
+        	this.regularExpression=regularExpression;
         }
     
         public void setCollapsedRows(int collapsedRows)
