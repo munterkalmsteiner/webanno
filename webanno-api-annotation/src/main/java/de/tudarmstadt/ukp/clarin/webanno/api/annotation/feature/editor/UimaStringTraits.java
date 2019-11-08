@@ -30,6 +30,7 @@ public class UimaStringTraits
     private boolean multipleRows = false;
     private int collapsedRows = 1;
     private int expandedRows = 1;
+    private String regex=null;
     
     public UimaStringTraits()
     {
@@ -45,6 +46,18 @@ public class UimaStringTraits
     {
         this.multipleRows = multipleRows;
     }
+    
+    
+    public String getRegex()
+    {
+        return regex;
+    }
+    
+    public void setRegex(String regex)
+    {
+        this.regex = regex;
+    }
+    
     
     public int getCollapsedRows()
     {
