@@ -678,7 +678,8 @@ public class ProjectServiceImpl
         }
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void savePropertiesFile(Project aProject, InputStream aIs, String aFileName)
         throws IOException
     {
