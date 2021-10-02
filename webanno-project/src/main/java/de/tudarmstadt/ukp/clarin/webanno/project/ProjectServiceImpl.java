@@ -157,7 +157,8 @@ public class ProjectServiceImpl
             log.info("Created project [{}]({})", aProject.getName(), aProject.getId());
         }
 
-        String path = repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER + "/"
+        String string = "/";
+		String path = repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER + string
                 + aProject.getId();
         FileUtils.forceMkdir(new File(path));
 
@@ -360,29 +361,33 @@ public class ProjectServiceImpl
     @Override
     public File getProjectFolder(Project aProject)
     {
-        return new File(repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER
-                + "/" + aProject.getId());
+        String string = "/";
+		return new File(repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER
+                + string + aProject.getId());
     }
 
     @Override
     public File getProjectLogFile(Project aProject)
     {
-        return new File(repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER
-                + "/" + "project-" + aProject.getId() + ".log");
+        String string = "/";
+		return new File(repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER
+                + string + "project-" + aProject.getId() + ".log");
     }
 
     @Override
     public File getGuidelinesFolder(Project aProject)
     {
-        return new File(repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER
-                + "/" + aProject.getId() + "/" + GUIDELINES_FOLDER + "/");
+        String string = "/";
+		return new File(repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER
+                + string + aProject.getId() + string + GUIDELINES_FOLDER + string);
     }
 
     @Override
     public File getMetaInfFolder(Project aProject)
     {
-        return new File(repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER
-                + "/" + aProject.getId() + "/" + META_INF_FOLDER + "/");
+        String string = "/";
+		return new File(repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER
+                + string + aProject.getId() + string + META_INF_FOLDER + string);
     }
 
     @Deprecated
@@ -396,8 +401,9 @@ public class ProjectServiceImpl
     @Override
     public File getGuideline(Project aProject, String aFilename)
     {
-        return new File(repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER
-                + "/" + aProject.getId() + "/" + GUIDELINES_FOLDER + "/" + aFilename);
+        String string = "/";
+		return new File(repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER
+                + string + aProject.getId() + string + GUIDELINES_FOLDER + string + aFilename);
     }
 
     @Override
@@ -521,8 +527,9 @@ public class ProjectServiceImpl
     public void createGuideline(Project aProject, InputStream aIS, String aFileName)
         throws IOException
     {
-        String guidelinePath = repositoryProperties.getPath().getAbsolutePath() + "/"
-                + PROJECT_FOLDER + "/" + aProject.getId() + "/" + GUIDELINES_FOLDER + "/";
+        String string = "/";
+		String guidelinePath = repositoryProperties.getPath().getAbsolutePath() + string
+                + PROJECT_FOLDER + string + aProject.getId() + string + GUIDELINES_FOLDER + string;
         FileUtils.forceMkdir(new File(guidelinePath));
         try (FileOutputStream output = new FileOutputStream(new File(guidelinePath + aFileName))) {
 			copyLarge(aIS, output);
@@ -631,7 +638,8 @@ public class ProjectServiceImpl
         entityManager.remove(project);
 
         // remove the project directory from the file system
-        String path = repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER + "/"
+        String string = "/";
+		String path = repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER + string
                 + aProject.getId();
         try {
             FastIOUtils.delete(new File(path));
@@ -653,9 +661,10 @@ public class ProjectServiceImpl
     @Override
     public void removeGuideline(Project aProject, String aFileName) throws IOException
     {
-        FileUtils.forceDelete(
-                new File(repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER
-                        + "/" + aProject.getId() + "/" + GUIDELINES_FOLDER + "/" + aFileName));
+        String string = "/";
+		FileUtils.forceDelete(
+                new File(repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER
+                        + string + aProject.getId() + string + GUIDELINES_FOLDER + string + aFileName));
 
         try (MDC.MDCCloseable closable = MDC.putCloseable(Logging.KEY_PROJECT_ID,
                 String.valueOf(aProject.getId()))) {
@@ -682,14 +691,16 @@ public class ProjectServiceImpl
     public void savePropertiesFile(Project aProject, InputStream aIs, String aFileName)
         throws IOException
     {
-        String path = repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER + "/"
-                + aProject.getId() + "/" + FilenameUtils.getFullPath(aFileName);
+        String string = "/";
+		String path = repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER + string
+                + aProject.getId() + string + FilenameUtils.getFullPath(aFileName);
         FileUtils.forceMkdir(new File(path));
 
         File newTcfFile = new File(path, FilenameUtils.getName(aFileName));
         OutputStream os = null;
         try {
-            os = new FileOutputStream(newTcfFile);
+            FileOutputStream fileOutputStream = new FileOutputStream(newTcfFile);
+			os = fileOutputStream;
             copyLarge(aIs, os);
         }
         finally {
