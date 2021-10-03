@@ -448,7 +448,7 @@ public class ProjectServiceImpl
             permissions.addAll(listProjectPermissionLevel(aUser, aProject));
         }
         catch (NoResultException e) {
-            // Nothing to do
+            throw new IllegalArgumentException(e.getMessage());
         }
 
         // Remove permissions that no longer exist
@@ -923,7 +923,8 @@ public class ProjectServiceImpl
                             ClassUtils.getAbbreviatedName(init.getClass(), 20));
                 }
                 else {
-                    throw new IllegalStateException("There cannot be more than once instance "
+                    
+                    IllegalStateException("There cannot be more than once instance "
                             + "of each project initializer class! Duplicate instance of class: "
                             + init.getClass());
                 }
