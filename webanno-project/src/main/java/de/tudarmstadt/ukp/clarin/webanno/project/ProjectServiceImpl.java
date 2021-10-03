@@ -863,7 +863,7 @@ public class ProjectServiceImpl
     }
 
     @Override
-    @Deprecated
+    @Deprecated (forRemoval=true) 
     public boolean isAdmin(Project aProject, User aUser)
     {
         return isManager(aProject, aUser);
