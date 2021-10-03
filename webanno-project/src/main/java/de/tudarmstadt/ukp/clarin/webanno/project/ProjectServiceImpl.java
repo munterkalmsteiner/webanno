@@ -696,17 +696,12 @@ public class ProjectServiceImpl
 
         File newTcfFile = new File(path, FilenameUtils.getName(aFileName));
         OutputStream os = null;
-        try {
-            FileOutputStream fileOutputStream = new FileOutputStream(newTcfFile);
-			os = fileOutputStream;
-            copyLarge(aIs, os);
-        }
-        finally {
-            closeQuietly(os);
-            closeQuietly(aIs);
-        }
-    }
-
+        try (FileOutputStream fileOutputStream = new FileOutputStream(newTcfFile)) {
+ 			os = fileOutputStream;
+ 		}
+ 		copyLarge(aIs, os);
+     }
+    
     @Override
     public List<Project> listAccessibleProjects(User user)
     {
