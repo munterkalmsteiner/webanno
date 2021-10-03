@@ -281,9 +281,8 @@ var AnnotatorUI = (function($, window, undefined) {
 // WEBANNO EXTENSION END - #520 Perform javascript action on click 
 
 // WEBANNO EXTENSION BEGIN - #863 Allow configuration of default value for "auto-scroll" etc.
-/*
-      var onDblClick = function(evt) {
-*/
+// Here was the declaration of onDblClick, maybe onDblClick was changed to editAnnotation
+
       var editAnnotation = function(evt) {
 // WEBANNO EXTENSION END - #863 Allow configuration of default value for "auto-scroll" etc.
         // must be logged in
