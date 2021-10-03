@@ -198,9 +198,9 @@ public abstract class ApplicationPageBase
             items.add(aComponent);
         }
 
-        RequestCycle.get().find(IPartialPageRequestHandler.class).ifPresent(handler -> {
+        RequestCycle.get().find(IPartialPageRequestHandler.class).ifPresent(handler -> 
             handler.add(footer);
-        });
+        );
     }
 
     public void removeFromFooter(Component aComponent)
@@ -209,8 +209,8 @@ public abstract class ApplicationPageBase
 
         items.remove(aComponent);
 
-        RequestCycle.get().find(IPartialPageRequestHandler.class).ifPresent(handler -> {
+        RequestCycle.get().find(IPartialPageRequestHandler.class).ifPresent(handler -> 
             handler.add(footer);
-        });
+        );
     }
 }
