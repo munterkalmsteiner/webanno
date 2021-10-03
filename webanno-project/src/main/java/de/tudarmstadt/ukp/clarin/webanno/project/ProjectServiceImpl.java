@@ -637,8 +637,9 @@ public class ProjectServiceImpl
 
         try (MDC.MDCCloseable closable = MDC.putCloseable(Logging.KEY_PROJECT_ID,
                 String.valueOf(aProject.getId()))) {
+        	String s= formatDurationWords(System.currentTimeMillis() - start, true, true);
             log.info("Removed project [{}]({}) ({})", aProject.getName(), aProject.getId(),
-                    formatDurationWords(System.currentTimeMillis() - start, true, true));
+                   s);
         }
     }
 
