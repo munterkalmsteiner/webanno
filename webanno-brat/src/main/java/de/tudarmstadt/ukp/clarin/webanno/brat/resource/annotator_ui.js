@@ -104,15 +104,7 @@ var AnnotatorUI = (function($, window, undefined) {
         return m[1]; // always matches
       }
 
-// WEBANNO EXTENSION BEGIN
-// We do not use the brat forms
-/*
-      var hideForm = function() {
-        keymap = null;
-        rapidAnnotationDialogVisible = false;
-      };
-*/
-// WEBANNO EXTENSIONE END
+
 
       var clearSelection = function() {
         window.getSelection().removeAllRanges();
