@@ -365,7 +365,7 @@ public class ProjectServiceImpl
                 + string + aProject.getId() + string + META_INF_FOLDER + string);
     }
 
-    @Deprecated
+    @Deprecated(forRemoval=true)
     @Override
     @Transactional(noRollbackFor = NoResultException.class)
     public List<Authority> listAuthorities(User aUser)
