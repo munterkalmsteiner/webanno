@@ -186,31 +186,7 @@ public class ProjectServiceImpl
             return;
         }
 
-        // This query is better because we do not inject strings into the query string, but it
-        // does not work on HSQLDB (on MySQL it seems to work).
-        // See: https://github.com/webanno/webanno/issues/1011
-        // String query =
-        // "SELECT new " + SourceDocumentStateStats.class.getName() + "(" +
-        // "COUNT(*) AS num, " +
-        // "SUM(CASE WHEN state = :an THEN 1 ELSE 0 END), " +
-        // "SUM(CASE WHEN (state = :aip OR state is NULL) THEN 1 ELSE 0 END), " +
-        // "SUM(CASE WHEN state = :af THEN 1 ELSE 0 END), " +
-        // "SUM(CASE WHEN state = :cip THEN 1 ELSE 0 END), " +
-        // "SUM(CASE WHEN state = :cf THEN 1 ELSE 0 END)) " +
-        // "FROM SourceDocument " +
-        // "WHERE project = :project";
-        //
-        // SourceDocumentStateStats stats = entityManager.createQuery(
-        // query, SourceDocumentStateStats.class)
-        // .setParameter("project", aProject)
-        // .setParameter("an", SourceDocumentState.NEW)
-        // .setParameter("aip", SourceDocumentState.ANNOTATION_IN_PROGRESS)
-        // .setParameter("af", SourceDocumentState.ANNOTATION_FINISHED)
-        // .setParameter("cip", SourceDocumentState.CURATION_IN_PROGRESS)
-        // .setParameter("cf", SourceDocumentState.CURATION_FINISHED)
-        // .getSingleResult();
 
-        // @formatter:off
         String query = 
                 "SELECT new " + SourceDocumentStateStats.class.getName() + "(" +
                 "COUNT(*), " +
