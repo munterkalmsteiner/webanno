@@ -508,7 +508,8 @@ public class AeroRemoteApiController
             switch (state) {
             case NEW: // fallthrough
             case ANNOTATION_IN_PROGRESS: // fallthrough
-            case ANNOTATION_FINISHED: // fallthrough
+                //noinspection deprecation
+                case ANNOTATION_FINISHED: // fallthrough
                 document.setState(state);
                 documentService.createSourceDocument(document);
                 break;
@@ -791,7 +792,8 @@ public class AeroRemoteApiController
                 break;
             case NEW: // fallthrough
             case ANNOTATION_IN_PROGRESS: // fallthrough
-            case ANNOTATION_FINISHED: // fallthrough
+                //noinspection deprecation
+                case ANNOTATION_FINISHED: // fallthrough
             default:
                 throw new IllegalObjectStateException(
                         "State [%s] not valid when uploading a curation.", aState.get());
@@ -1055,6 +1057,7 @@ public class AeroRemoteApiController
         case "ANNOTATION-IN-PROGRESS":
             return SourceDocumentState.ANNOTATION_IN_PROGRESS;
         case "ANNOTATION-COMPLETE":
+            //noinspection deprecation
             return SourceDocumentState.ANNOTATION_FINISHED;
         case "CURATION-COMPLETE":
             return SourceDocumentState.CURATION_FINISHED;
@@ -1070,13 +1073,13 @@ public class AeroRemoteApiController
         if (aState == null) {
             return null;
         }
-
         switch (aState) {
         case NEW:
             return "NEW";
         case ANNOTATION_IN_PROGRESS:
             return "ANNOTATION-IN-PROGRESS";
-        case ANNOTATION_FINISHED:
+            //noinspection deprecation
+            case ANNOTATION_FINISHED:
             return "ANNOTATION-COMPLETE";
         case CURATION_FINISHED:
             return "CURATION-COMPLETE";
@@ -1098,7 +1101,8 @@ public class AeroRemoteApiController
             return "NEW";
         case ANNOTATION_IN_PROGRESS:
             return "ANNOTATION-IN-PROGRESS";
-        case ANNOTATION_FINISHED:
+            //noinspection deprecation
+            case ANNOTATION_FINISHED:
             return "ANNOTATION-COMPLETE";
         case CURATION_FINISHED:
             return "CURATION-COMPLETE";
