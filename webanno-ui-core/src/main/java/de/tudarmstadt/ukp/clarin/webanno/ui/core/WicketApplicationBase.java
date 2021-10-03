@@ -315,7 +315,7 @@ public abstract class WicketApplicationBase
         AnnotatedMountList mounts = new AnnotatedMountScanner().scanPackage("de.tudarmstadt.ukp");
         for (IRequestMapper mapper : mounts) {
             if (mapper instanceof HomePageMapper) {
-                System.out.println(mapper);
+                logger.log(mapper);
             }
         }
         mounts.mount(this);
