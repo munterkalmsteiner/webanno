@@ -48,6 +48,7 @@ import java.util.zip.ZipFile;
 
 import javax.persistence.NoResultException;
 
+import de.tudarmstadt.ukp.clarin.webanno.api.export.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -83,10 +84,6 @@ import de.tudarmstadt.ukp.clarin.webanno.api.DocumentService;
 import de.tudarmstadt.ukp.clarin.webanno.api.ImportExportService;
 import de.tudarmstadt.ukp.clarin.webanno.api.ProjectService;
 import de.tudarmstadt.ukp.clarin.webanno.api.WebAnnoConst;
-import de.tudarmstadt.ukp.clarin.webanno.api.export.ProjectExportRequest;
-import de.tudarmstadt.ukp.clarin.webanno.api.export.ProjectExportService;
-import de.tudarmstadt.ukp.clarin.webanno.api.export.ProjectExportTaskMonitor;
-import de.tudarmstadt.ukp.clarin.webanno.api.export.ProjectImportRequest;
 import de.tudarmstadt.ukp.clarin.webanno.api.format.FormatSupport;
 import de.tudarmstadt.ukp.clarin.webanno.curation.storage.CurationDocumentService;
 import de.tudarmstadt.ukp.clarin.webanno.export.ImportUtil;
@@ -163,7 +160,6 @@ public class AeroRemoteApiController
 
     @ExceptionHandler(value = RemoteApiException.class)
     public ResponseEntity<RResponse<Void>> handleException(RemoteApiException aException)
-        throws IOException
     {
         LOG.error(aException.getMessage(), aException);
         return ResponseEntity.status(aException.getStatus()).contentType(APPLICATION_JSON)
@@ -171,8 +167,7 @@ public class AeroRemoteApiController
     }
 
     @ExceptionHandler
-    public ResponseEntity<RResponse<Void>> handleException(Exception aException) throws IOException
-    {
+    public ResponseEntity<RResponse<Void>> handleException(Exception aException) {
         LOG.error(aException.getMessage(), aException);
         return ResponseEntity.status(INTERNAL_SERVER_ERROR).contentType(APPLICATION_JSON)
                 .body(new RResponse<>(ERROR, "Internal server error: " + aException.getMessage()));
@@ -259,7 +254,7 @@ public class AeroRemoteApiController
     @ApiOperation(value = "List the projects accessible by the authenticated user")
     @RequestMapping(value = ("/"
             + PROJECTS), method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<RResponse<List<RProject>>> projectList() throws Exception
+    public ResponseEntity<RResponse<List<RProject>>> projectList() throws  ObjectNotFoundException
     {
         // Get current user - this will throw an exception if the current user does not exit
         User user = getCurrentUser();
@@ -285,7 +280,8 @@ public class AeroRemoteApiController
             produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<RResponse<RProject>> projectCreate(@RequestParam(PARAM_NAME) String aName,
             @RequestParam(PARAM_CREATOR) Optional<String> aCreator, UriComponentsBuilder aUcb)
-        throws Exception
+        throws  AccessForbiddenException,ObjectNotFoundException,UnsupportedFormatException,ProjectExportException
+            ,IOException,ObjectExistsException
     {
         // Get current user - this will throw an exception if the current user does not exit
         User user = getCurrentUser();
@@ -335,7 +331,8 @@ public class AeroRemoteApiController
             + "}"), method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<RResponse<RProject>> projectRead(
             @PathVariable(PARAM_PROJECT_ID) long aProjectId)
-        throws Exception
+        throws AccessForbiddenException,ObjectNotFoundException,UnsupportedFormatException,IllegalObjectStateException
+            ,IOException,UIMAException
     {
         // Get project (this also ensures that it exists and that the current user can access it
         Project project = getProject(aProjectId);
@@ -348,7 +345,7 @@ public class AeroRemoteApiController
             + "}"), method = RequestMethod.DELETE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<RResponse<Void>> projectDelete(
             @PathVariable(PARAM_PROJECT_ID) long aProjectId)
-        throws Exception
+        throws AccessForbiddenException,ObjectNotFoundException,IOException
     {
         // Get project (this also ensures that it exists and that the current user can access it
         Project project = getProject(aProjectId);
@@ -366,7 +363,8 @@ public class AeroRemoteApiController
             produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<RResponse<RProject>> projectImport(
             @RequestPart(PARAM_FILE) MultipartFile aFile)
-        throws Exception
+        throws AccessForbiddenException,ObjectNotFoundException,UnsupportedFormatException, ProjectExportException
+            ,IOException
     {
         // Get current user - this will throw an exception if the current user does not exit
         User user = getCurrentUser();
@@ -407,7 +405,8 @@ public class AeroRemoteApiController
     public ResponseEntity<InputStreamResource> projectExport(
             @PathVariable(PARAM_PROJECT_ID) long aProjectId,
             @RequestParam(value = PARAM_FORMAT) Optional<String> aFormat)
-        throws Exception
+        throws AccessForbiddenException,ObjectNotFoundException,UnsupportedFormatException,ProjectExportException
+            ,IOException
     {
         // Get project (this also ensures that it exists and that the current user can access it
         Project project = getProject(aProjectId);
@@ -454,7 +453,7 @@ public class AeroRemoteApiController
             + DOCUMENTS, method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<RResponse<List<RDocument>>> documentList(
             @PathVariable(PARAM_PROJECT_ID) long aProjectId)
-        throws Exception
+        throws AccessForbiddenException,ObjectNotFoundException
     {
         // Get project (this also ensures that it exists and that the current user can access it
         Project project = getProject(aProjectId);
@@ -483,7 +482,8 @@ public class AeroRemoteApiController
             @RequestParam(PARAM_CONTENT) MultipartFile aFile,
             @RequestParam(PARAM_NAME) String aName, @RequestParam(PARAM_FORMAT) String aFormat,
             @RequestParam(PARAM_STATE) Optional<String> aState, UriComponentsBuilder aUcb)
-        throws Exception
+        throws AccessForbiddenException,ObjectNotFoundException,UnsupportedFormatException,IllegalObjectStateException
+            ,IOException,UIMAException
     {
         // Get project (this also ensures that it exists and that the current user can access it
         Project project = getProject(aProjectId);
@@ -546,7 +546,7 @@ public class AeroRemoteApiController
     public ResponseEntity documentRead(@PathVariable(PARAM_PROJECT_ID) long aProjectId,
             @PathVariable(PARAM_DOCUMENT_ID) long aDocumentId,
             @RequestParam(value = PARAM_FORMAT) Optional<String> aFormat)
-        throws Exception
+        throws ObjectNotFoundException,AccessForbiddenException,IOException,UIMAException,UnsupportedFormatException
     {
         // Get project (this also ensures that it exists and that the current user can access it
         Project project = getProject(aProjectId);
@@ -627,7 +627,7 @@ public class AeroRemoteApiController
     public ResponseEntity<RResponse<Void>> documentDelete(
             @PathVariable(PARAM_PROJECT_ID) long aProjectId,
             @PathVariable(PARAM_DOCUMENT_ID) long aDocumentId)
-        throws Exception
+        throws ObjectNotFoundException,AccessForbiddenException,IOException
     {
         // Get project (this also ensures that it exists and that the current user can access it
         Project project = getProject(aProjectId);
@@ -646,7 +646,7 @@ public class AeroRemoteApiController
     public ResponseEntity<RResponse<List<RAnnotation>>> annotationsList(
             @PathVariable(PARAM_PROJECT_ID) long aProjectId,
             @PathVariable(PARAM_DOCUMENT_ID) long aDocumentId)
-        throws Exception
+        throws  ObjectNotFoundException,AccessForbiddenException
     {
         // Get project (this also ensures that it exists and that the current user can access it
         Project project = getProject(aProjectId);
@@ -680,7 +680,7 @@ public class AeroRemoteApiController
             @RequestPart(PARAM_CONTENT) MultipartFile aFile,
             @RequestParam(PARAM_FORMAT) Optional<String> aFormat,
             @RequestParam(PARAM_STATE) Optional<String> aState, UriComponentsBuilder aUcb)
-        throws Exception
+        throws  IOException,UIMAException,RemoteApiException
     {
         User annotator = getUser(aAnnotatorId);
         Project project = getProject(aProjectId);
@@ -721,7 +721,7 @@ public class AeroRemoteApiController
             @PathVariable(PARAM_DOCUMENT_ID) long aDocumentId,
             @PathVariable(PARAM_ANNOTATOR_ID) String aAnnotatorId,
             @RequestParam(value = PARAM_FORMAT) Optional<String> aFormat)
-        throws Exception
+        throws  IOException,UIMAException,ClassNotFoundException,RemoteApiException
     {
         return readAnnotation(aProjectId, aDocumentId, aAnnotatorId, Mode.ANNOTATION, aFormat);
 
@@ -735,7 +735,7 @@ public class AeroRemoteApiController
             @PathVariable(PARAM_PROJECT_ID) long aProjectId,
             @PathVariable(PARAM_DOCUMENT_ID) long aDocumentId,
             @PathVariable(PARAM_ANNOTATOR_ID) String aAnnotatorId)
-        throws Exception
+        throws  ObjectNotFoundException,AccessForbiddenException,IOException
     {
         // Get project (this also ensures that it exists and that the current user can access it
         Project project = getProject(aProjectId);
@@ -766,7 +766,7 @@ public class AeroRemoteApiController
             @RequestPart(value = PARAM_CONTENT) MultipartFile aFile,
             @RequestParam(PARAM_FORMAT) Optional<String> aFormat,
             @RequestParam(PARAM_STATE) Optional<String> aState, UriComponentsBuilder aUcb)
-        throws Exception
+        throws  IOException,UIMAException,RemoteApiException
     {
         Project project = getProject(aProjectId);
         SourceDocument document = getDocument(project, aDocumentId);
@@ -819,7 +819,7 @@ public class AeroRemoteApiController
     public ResponseEntity<byte[]> curationRead(@PathVariable(PARAM_PROJECT_ID) long aProjectId,
             @PathVariable(PARAM_DOCUMENT_ID) long aDocumentId,
             @RequestParam(value = PARAM_FORMAT) Optional<String> aFormat)
-        throws Exception
+        throws  IOException,UIMAException,ClassNotFoundException,RemoteApiException
     {
         return readAnnotation(aProjectId, aDocumentId, WebAnnoConst.CURATION_USER, Mode.CURATION,
                 aFormat);
@@ -832,7 +832,7 @@ public class AeroRemoteApiController
     public ResponseEntity<RResponse<Void>> curationDelete(
             @PathVariable(PARAM_PROJECT_ID) long aProjectId,
             @PathVariable(PARAM_DOCUMENT_ID) long aDocumentId)
-        throws Exception
+        throws IOException,RemoteApiException
     {
         // Get project (this also ensures that it exists and that the current user can access it
         Project project = getProject(aProjectId);
@@ -920,7 +920,7 @@ public class AeroRemoteApiController
 
     private CAS createCompatibleCas(long aProjectId, long aDocumentId, MultipartFile aFile,
             Optional<String> aFormatId)
-        throws RemoteApiException, ClassNotFoundException, IOException, UIMAException
+        throws RemoteApiException, IOException, UIMAException
     {
         Project project = getProject(aProjectId);
         SourceDocument document = getDocument(project, aDocumentId);
