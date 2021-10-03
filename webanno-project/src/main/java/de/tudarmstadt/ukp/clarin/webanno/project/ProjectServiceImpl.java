@@ -1049,9 +1049,8 @@ public class ProjectServiceImpl
         String query = "SELECT DISTINCT p FROM Project p, ProjectPermission pp "
                 + "WHERE pp.project = p.id " + "AND pp.level = :annotator "
                 + "GROUP BY p.id HAVING count(*) > 1 " + "ORDER BY p.name ASC";
-        List<Project> projects = entityManager.createQuery(query, Project.class)
+        return entityManager.createQuery(query, Project.class)
                 .setParameter("annotator", PermissionLevel.ANNOTATOR).getResultList();
-        return projects;
     }
 
     @Override
