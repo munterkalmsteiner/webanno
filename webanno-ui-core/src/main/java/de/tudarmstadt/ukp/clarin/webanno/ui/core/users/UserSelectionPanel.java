@@ -73,7 +73,7 @@ class UserSelectionPanel
 
     private List<User> listUsers()
     {
-        if (showDisabled.getModelObject()) {
+        if (Boolean.TRUE.equals(showDisabled.getModelObject())) {
             return userRepository.listDisabledUsers();
         }
         else {
