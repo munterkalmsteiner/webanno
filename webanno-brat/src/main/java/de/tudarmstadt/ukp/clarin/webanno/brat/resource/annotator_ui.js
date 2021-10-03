@@ -22,7 +22,7 @@
  */
 // -*- Mode: JavaScript; tab-width: 2; indent-tabs-mode: nil; -*-
 // vim:set ft=javascript ts=2 sw=2 sts=2 cindent:
-var AnnotatorUI = (function($, window, undefined) {
+var AnnotatorUI = (function($, window) {
     var AnnotatorUI = function(dispatcher, svg) {
       var that = this;
       var arcDragOrigin = null;
