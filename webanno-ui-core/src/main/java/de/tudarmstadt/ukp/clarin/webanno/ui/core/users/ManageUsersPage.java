@@ -228,13 +228,13 @@ public class ManageUsersPage
         users = new UserSelectionPanel("users", selectedUser);
         // Show the selection for different users only to administrators
         users.add(visibleWhen(this::isAdmin));
-        users.setCreateAction(_target -> {
+        users.setCreateAction(target -> {
             selectedUser.setObject(new User());
-            _target.add(users);
-            _target.add(detailForm);
+            target.add(users);
+            target.add(detailForm);
             // Need to defer setting this field because otherwise setChangeAction below
             // sets it back to false.
-            _target.registerRespondListener(__target -> detailForm.isCreate = true);
+            target.registerRespondListener(target -> detailForm.isCreate = true);
         });
         users.setChangeAction(target -> {
             detailForm.isCreate = false;
