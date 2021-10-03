@@ -302,12 +302,7 @@ public class ProjectServiceImpl
                 .getResultList();
 
         // if at least one permission level exist
-        if (projectPermissions.size() > 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return (!projectPermissions.isEmpty())?true:false;
     }
 
     @Override
