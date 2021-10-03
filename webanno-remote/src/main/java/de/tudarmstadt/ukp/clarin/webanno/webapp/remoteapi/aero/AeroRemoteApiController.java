@@ -1076,8 +1076,7 @@ public class AeroRemoteApiController
             return "NEW";
         case ANNOTATION_IN_PROGRESS:
             return "ANNOTATION-IN-PROGRESS";
-            //noinspection deprecation
-            case ANNOTATION_FINISHED:
+        case ANNOTATION_FINISHED:
             return "ANNOTATION-COMPLETE";
         case CURATION_FINISHED:
             return "CURATION-COMPLETE";
@@ -1099,8 +1098,7 @@ public class AeroRemoteApiController
             return "NEW";
         case ANNOTATION_IN_PROGRESS:
             return "ANNOTATION-IN-PROGRESS";
-            //noinspection deprecation
-            case ANNOTATION_FINISHED:
+        case ANNOTATION_FINISHED:
             return "ANNOTATION-COMPLETE";
         case CURATION_FINISHED:
             return "CURATION-COMPLETE";
