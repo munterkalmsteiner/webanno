@@ -302,6 +302,7 @@ public class ProjectServiceImpl
                 .getResultList();
 
         // if at least one permission level exist
+        
         return (!projectPermissions.isEmpty())?true:false;
     }
 
@@ -342,10 +343,7 @@ public class ProjectServiceImpl
     public boolean existsProjectTimeStamp(Project aProject)
     {
         try {
-            if (getProjectTimeStamp(aProject) == null) {
-                return false;
-            }
-            return true;
+        	 return (getProjectTimeStamp(aProject) == null)?false:true;
         }
         catch (NoResultException ex) {
             return false;
