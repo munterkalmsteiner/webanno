@@ -898,6 +898,10 @@ public class AeroRemoteApiController
                     format, doc.getName(), Mode.ANNOTATION);
             resource = FileUtils.readFileToByteArray(exportedAnnoFile);
         }
+        catch(Exception ex){
+        	throw new IllegalObjectStateException(
+                    "There is a problem of Loading the File into memory Error Message:[%s] ", ex.getMessage());
+        }
         finally {
             if (exportedAnnoFile != null) {
                 FileUtils.forceDelete(exportedAnnoFile);
