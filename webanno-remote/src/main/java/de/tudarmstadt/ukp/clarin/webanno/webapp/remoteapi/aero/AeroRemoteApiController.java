@@ -1050,7 +1050,6 @@ public class AeroRemoteApiController
         if (aState == null) {
             return null;
         }
-
         switch (aState) {
         case "NEW":
             return SourceDocumentState.NEW;
