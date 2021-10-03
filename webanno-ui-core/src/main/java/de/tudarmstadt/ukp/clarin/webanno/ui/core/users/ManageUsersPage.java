@@ -135,8 +135,8 @@ public class ManageUsersPage
 
         private void validateEnabled(IValidatable<Boolean> aValidatable)
         {
-            if (!aValidatable.getValue()
-                    && userRepository.getCurrentUser().equals(getModelObject())) {
+            if (Boolean.TRUE.equals(aValidatable.getValue()
+                    && userRepository.getCurrentUser().equals(getModelObject()))) {
                 aValidatable.error(
                         new ValidationError().setMessage("You cannot disable your own account."));
             }
