@@ -143,11 +143,8 @@ public class AeroRemoteApiController
 
     private static final String VAL_ORIGINAL = "ORIGINAL";
 
-    private static final String PROP_ID = "id";
-    private static final String PROP_NAME = "name";
-    private static final String PROP_STATE = "state";
-    private static final String PROP_USER = "user";
-    private static final String PROP_TIMESTAMP = "user";
+    
+
 
     private static final String FORMAT_DEFAULT = "text";
 
@@ -389,7 +386,7 @@ public class AeroRemoteApiController
                 throw new UnsupportedFormatException("Incompatible to webanno ZIP file");
             }
 
-            // importedProject = importService.importProject(tempFile, false);
+            
             ProjectImportRequest request = new ProjectImportRequest(false);
             importedProject = exportService.importProject(request, new ZipFile(tempFile));
         }
