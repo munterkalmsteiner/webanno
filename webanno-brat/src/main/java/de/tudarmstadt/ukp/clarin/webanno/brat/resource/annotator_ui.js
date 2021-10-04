@@ -127,7 +127,7 @@ var AnnotatorUI = (function($, window, undefined) {
       };
 
       var makeSelRect = function(rx, ry, rw, rh, col) {
-        var selRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        selRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
         selRect.setAttributeNS(null, "width", rw);
         selRect.setAttributeNS(null, "height", rh);
         selRect.setAttributeNS(null, "x", rx);
@@ -151,7 +151,7 @@ var AnnotatorUI = (function($, window, undefined) {
 
         // in rapid annotation mode, prioritize the keys 0..9 for the
         // ordered choices in the quick annotation dialog.
-        if (Configuration.rapidModeOn && rapidAnnotationDialogVisible && 
+        if (Configuration.rapidModeOn && rapidAnnotationDialogVisible &&
             "0".charCodeAt() <= code && code <= "9".charCodeAt()) {
           var idx = String.fromCharCode(code);
           var $input = $('#rapid_span_'+idx);
@@ -192,21 +192,21 @@ var AnnotatorUI = (function($, window, undefined) {
         }
       };
 
-// WEBANNO EXTENSION BEGIN - #520 Perform javascript action on click 
+// WEBANNO EXTENSION BEGIN - #520 Perform javascript action on click
       var clickCount = 0;
       var clickTimer = null;
       var CLICK_DELAY = 300;
 
-      // Distinguish between double clicks and single clicks . This is relevant when clicking on 
+      // Distinguish between double clicks and single clicks . This is relevant when clicking on
       // annotations. For clicking on text nodes, this is not really relevant.
       var onClick = function(evt){
         clickCount++;
 
-        var singleClickAction = Configuration.singleClickEdit ? 
+        var singleClickAction = Configuration.singleClickEdit ?
             editAnnotation : customJSAction;
-        var doubleClickAction = Configuration.singleClickEdit ? 
+        var doubleClickAction = Configuration.singleClickEdit ?
             customJSAction : editAnnotation;
-        
+
         if (clickCount === 1) {
           clickTimer = setTimeout(function() {
             try {
@@ -254,7 +254,7 @@ var AnnotatorUI = (function($, window, undefined) {
           var type = target.attr('data-arc-role');
           var originSpan = data.spans[target.attr('data-arc-origin')];
           var targetSpan = data.spans[target.attr('data-arc-target')];
-          
+
           dispatcher.post('ajax', [{
               action: 'doAction',
               arcId: id,
@@ -277,8 +277,8 @@ var AnnotatorUI = (function($, window, undefined) {
         	  }
         }
 // WEBANNO EXTENSION END - #406 Sharable link for annotation documents
-      }      
-// WEBANNO EXTENSION END - #520 Perform javascript action on click 
+      }
+// WEBANNO EXTENSION END - #520 Perform javascript action on click
 
 // WEBANNO EXTENSION BEGIN - #863 Allow configuration of default value for "auto-scroll" etc.
 /*
@@ -372,7 +372,7 @@ var AnnotatorUI = (function($, window, undefined) {
         if (!data.spans[originId]) {
           return;
         }
-        
+
         svgElement.addClass('unselectable');
         svgPosition = svgElement.offset();
         arcDragOrigin = originId;
@@ -448,7 +448,7 @@ var AnnotatorUI = (function($, window, undefined) {
             var target = $(dragStartedAt.target);
             var id = target.attr('data-span-id');
             startArcDrag(id);
-            
+
 // BEGIN WEBANNO EXTENSION - #724 - Cross-row selection is jumpy
             // If user starts selecting text, suppress all pointer events on annotations to
             // avoid the selection jumping around. During selection, we don't need the annotations
@@ -462,7 +462,7 @@ var AnnotatorUI = (function($, window, undefined) {
           }
         }
 // END WEBANNO EXTENSION - #1610 - Improve brat visualization interaction performance
-        
+
         if (arcDragOrigin) {
           if (arcDragJustStarted) {
             // show the possible targets
@@ -493,7 +493,7 @@ var AnnotatorUI = (function($, window, undefined) {
             else {
             	$targets.not('[data-span-id="' + arcDragOrigin + '"]').addClass('reselectTarget');
             }
-// WEBANNO EXTENSION END - #277 - self-referencing arcs for custom layers 
+// WEBANNO EXTENSION END - #277 - self-referencing arcs for custom layers
           }
           clearSelection();
           var mx = evt.pageX - svgPosition.left;
@@ -606,7 +606,7 @@ var AnnotatorUI = (function($, window, undefined) {
               }
 
               // Start has moved
-              var flip = !(startRec.x == lastStartRec.x && startRec.y == lastStartRec.y);
+              flip = !(startRec.x == lastStartRec.x && startRec.y == lastStartRec.y);
               // If the height of the start or end changed we need to check whether
               // to remove multi line highlights no longer needed if the user went back towards their start line
               // and whether to create new ones if we moved to a newline
@@ -628,7 +628,7 @@ var AnnotatorUI = (function($, window, undefined) {
                 // TODO put this in loops above, for efficiency the array slicing could be done separate still in single call
                 var trunc = false;
                 if (ss < selRect.length) {
-                  for (var s2 = 0; s2 != ss; s2++) {
+                  for (s2 = 0; s2 != ss; s2++) {
                     selRect[s2].parentNode.removeChild(selRect[s2]);
                     es--;
                     trunc = true;
@@ -645,9 +645,9 @@ var AnnotatorUI = (function($, window, undefined) {
 
                 // If we have truncated the highlights we need to readjust the last one
                 if (trunc) {
-                  var activeSelRect = flip ? selRect[0] : selRect[selRect.length - 1];
+                  activeSelRect = flip ? selRect[0] : selRect[selRect.length - 1];
                   if (flip) {
-                    var rw = 0;
+                    rw = 0;
                     if (startRec.y == endRec.y) {
                       rw = (endRec.x + endRec.width) - startRec.x;
                     } else {
@@ -659,7 +659,7 @@ var AnnotatorUI = (function($, window, undefined) {
                     activeSelRect.setAttributeNS(null, "y", startRec.y);
                     activeSelRect.setAttributeNS(null, "width", rw);
                   } else {
-                    var rw = (endRec.x + endRec.width) - parseFloat(activeSelRect.getAttributeNS(null, "x"));
+                    rw = (endRec.x + endRec.width) - parseFloat(activeSelRect.getAttributeNS(null, "x"));
                     activeSelRect.setAttributeNS(null, "width", rw);
                   }
                 } else {
@@ -679,10 +679,10 @@ var AnnotatorUI = (function($, window, undefined) {
                         (startBox.x + startBox.width)
                         - parseFloat(lastSel.getAttributeNS(null, "x")));
                   }
-                  var rx = 0;
-                  var ry = 0;
-                  var rw = 0;
-                  var rh = 0;
+                  rx = 0;
+                  ry = 0;
+                  rw = 0;
+                  rh = 0;
                   if (flip) {
                     rx = startRec.x;
                     ry = startRec.y;
@@ -706,10 +706,10 @@ var AnnotatorUI = (function($, window, undefined) {
                 }
               } else {
                 // The user simply moved left or right along the same line so just adjust the current highlight
-                var activeSelRect = flip ? selRect[0] : selRect[selRect.length - 1];
+                activeSelRect = flip ? selRect[0] : selRect[selRect.length - 1];
                 // If the start moved shift the highlight and adjust width
                 if (flip) {
-                  var rw = (parseFloat(activeSelRect.getAttributeNS(null, "x"))
+                  rw = (parseFloat(activeSelRect.getAttributeNS(null, "x"))
                       + parseFloat(activeSelRect.getAttributeNS(null, "width")))
                       - startRec.x;
                   activeSelRect.setAttributeNS(null, "x", startRec.x);
@@ -717,7 +717,7 @@ var AnnotatorUI = (function($, window, undefined) {
                   activeSelRect.setAttributeNS(null, "width", rw);
                 } else {
                   // If the end moved then simple change the width
-                  var rw = (endRec.x + endRec.width)
+                  rw = (endRec.x + endRec.width)
                       - parseFloat(activeSelRect.getAttributeNS(null, "x"));
                   activeSelRect.setAttributeNS(null, "width", rw);
                 }
@@ -755,7 +755,7 @@ var AnnotatorUI = (function($, window, undefined) {
             eLeft = Math.min(Math.max(eLeft,0), screenWidth - elementWidth);
         } else {
             eLeft = 0;
-        } 
+        }
         if (screenHeight > elementHeight) {
             eTop  = Math.min(Math.max(eTop,0), screenHeight - elementHeight);
         } else {
@@ -827,7 +827,7 @@ var AnnotatorUI = (function($, window, undefined) {
         }
 
         $('#span_selected').text(spanText);
-        var encodedText = encodeURIComponent(spanText);       
+        var encodedText = encodeURIComponent(spanText);
         $.each(searchConfig, function(searchNo, search) {
           $('#span_'+search[0]).attr('href', search[1].replace('%s', encodedText));
         });
@@ -1040,7 +1040,7 @@ var AnnotatorUI = (function($, window, undefined) {
           var type = $('#span_form input:radio:checked').val();
           var entityAttrCount = showAttributesFor(entityAttributeTypes, 'entity', type);
           var eventAttrCount = showAttributesFor(eventAttributeTypes, 'event', type);
-          
+
           showAllAttributes = false;
           // show attribute frames only if at least one attribute is
           // shown, and set size classes appropriately
@@ -1086,9 +1086,9 @@ var AnnotatorUI = (function($, window, undefined) {
         }
       };
 */
-      
+
       var fillSpanTypesAndDisplayForm = function(evt, offsets, spanText, span, id) {
-    	  
+
       if (id) {
       	dispatcher.post('ajax', [ {
   			action: 'spanOpenDialog',
@@ -1103,11 +1103,11 @@ var AnnotatorUI = (function($, window, undefined) {
   			action: 'spanOpenDialog',
   			offsets: $.toJSON(offsets),
   			spanText: spanText
-  		}, 'serverResult']);  
+  		}, 'serverResult']);
       }
     };
 // WEBANNO EXTENSION END
-        
+
       var submitReselect = function() {
         $(reselectedSpan.rect).removeClass('reselect');
         reselectedSpan = null;
@@ -1141,7 +1141,7 @@ var AnnotatorUI = (function($, window, undefined) {
           var $label = $('<label class="span_type_label"/>').
             attr('for', 'rapid_span_' + (typeNo+1)).
             text(name+' (' + (100.0 * prob).toFixed(1) + '%)');
-          $label.css('background-color', spanBgColor);          
+          $label.css('background-color', spanBgColor);
           // TODO: check for unnecessary extra wrapping here
           var $content = $('<div class="item_content"/>').
             append($numlabel).
@@ -1182,7 +1182,7 @@ var AnnotatorUI = (function($, window, undefined) {
         });
         // fill in some space and the special "Other" option, with key "0" (zero)
         $spanTypeDiv.append($('<div class="item_content">&#160;</div>')); // non-breaking space
-        var $numlabel = $('<span class="accesskey">0</span><span>:</span>');        
+        var $numlabel = $('<span class="accesskey">0</span><span>:</span>');
         var $input = $('<input type="radio" name="rapid_span_type" id="rapid_span_0" value=""/>');
         var $label = $('<label class="span_type_label" for="rapid_span_0" style="background-color:lightgray">Other...</label>');
         var $content = $('<div class="item_content"/>').
@@ -1236,7 +1236,7 @@ var AnnotatorUI = (function($, window, undefined) {
           // TODO: better response to failure
           dispatcher.post('messages', [[['Lookup error', 'warning', -1]]]);
           return false;
-        }        
+        }
         // set input style according to whether we have a valid value
         var $idinput = $('#span_norm_id');
         // TODO: make sure the key echo in the response matches the
@@ -1350,7 +1350,7 @@ var AnnotatorUI = (function($, window, undefined) {
       };
       var normSearchSubmit = function(evt) {
         if (normSearchSubmittable) {
-          var selectedId = $('#norm_search_id').val(); 
+          var selectedId = $('#norm_search_id').val();
           var selectedTxt = $('#norm_search_query').val();
 
           normSubmit(selectedId, selectedTxt);
@@ -1454,7 +1454,7 @@ var AnnotatorUI = (function($, window, undefined) {
         }
         // blank the table
         $('#norm_search_result_select thead').empty();
-        $('#norm_search_result_select tbody').empty();        
+        $('#norm_search_result_select tbody').empty();
         // TODO: support for two (or more) dialogs open at the same time
         // so we don't need to hide this before showing normSearchDialog
         dispatcher.post('hideForm');
@@ -1524,7 +1524,7 @@ var AnnotatorUI = (function($, window, undefined) {
               // do not allow equiv<->non-equiv change options
               if (arcType && isEquiv != isThisEquiv) return;
 
-              var displayName = ((arcDesc.labels && arcDesc.labels[0]) || 
+              var displayName = ((arcDesc.labels && arcDesc.labels[0]) ||
                                  arcTypeName);
               var $checkbox = $('<input id="arc_' + arcTypeName + '" type="radio" name="arc_type" value="' + arcTypeName + '"/>');
               var $label = $('<label class="arc_type_label" for="arc_' + arcTypeName + '"/>').text(displayName);
@@ -1658,7 +1658,7 @@ var AnnotatorUI = (function($, window, undefined) {
 
 // We send a request to the backend to open the dialog
       var fillArcTypesAndDisplayForm = function(evt, originSpanId, originType, targetSpanId, targetType, arcType, arcId) {
-    	  
+
     	    if(arcId) {
     	      	dispatcher.post('ajax', [ {
     	  			action: 'arcOpenDialog',
@@ -1668,7 +1668,7 @@ var AnnotatorUI = (function($, window, undefined) {
     	  			originType: originType,
     	  			targetSpanId: targetSpanId,
     	  			targetType: targetType
-    	  			
+
     	  		}, 'serverResult']);
     	      }
     	      else{
@@ -1678,15 +1678,15 @@ var AnnotatorUI = (function($, window, undefined) {
     	  			originType: originType,
     	  			targetSpanId: targetSpanId,
     	  			targetType: targetType
-    	  		}, 'serverResult']);  
-    		  
+    	  		}, 'serverResult']);
+
     	      }
       };
 // WEBANNO EXTENSION END
 
 // WEBANNO EXTENSION BEGIN
 // We do this in the backend
-/*     
+/*
       var reverseArc = function(evt) {
         var eventDataId = $(evt.target).attr('data-arc-ed');
         dispatcher.post('hideForm');
@@ -1700,7 +1700,7 @@ var AnnotatorUI = (function($, window, undefined) {
 
 // WEBANNO EXTENSION BEGIN
 // Deleting of arcs is handled by the WebAnno annotation dialog
-/*     
+/*
       var deleteArc = function(evt) {
         if (Configuration.confirmModeOn && !confirm("Are you sure you want to delete this annotation?")) {
           return;
@@ -1816,10 +1816,10 @@ var AnnotatorUI = (function($, window, undefined) {
           var origin = arcDragOrigin;
           var targetValid = target.hasClass('reselectTarget');
           stopArcDrag(target);
-// WEBANNO EXTENSION BEGIN - #277 - self-referencing arcs for custom layers 
+// WEBANNO EXTENSION BEGIN - #277 - self-referencing arcs for custom layers
           if ((id = target.attr('data-span-id')) && targetValid && (evt.shiftKey || origin != id)) {
 //          if ((id = target.attr('data-span-id')) && origin != id && targetValid) {
-// WEBANNO EXTENSION END - #277 - self-referencing arcs for custom layers 
+// WEBANNO EXTENSION END - #277 - self-referencing arcs for custom layers
             var originSpan = data.spans[origin];
             var targetSpan = data.spans[id];
             if (arcOptions && arcOptions.old_target) {
@@ -1848,7 +1848,7 @@ var AnnotatorUI = (function($, window, undefined) {
 /*
           var chunkIndexFrom = sel.anchorNode && $(sel.anchorNode.parentNode).attr('data-chunk-id');
           var chunkIndexTo = sel.focusNode && $(sel.focusNode.parentNode).attr('data-chunk-id');
-          
+
           // fallback for firefox (at least):
           // it's unclear why, but for firefox the anchor and focus
           // node parents are always undefined, the the anchor and
@@ -1910,7 +1910,7 @@ var AnnotatorUI = (function($, window, undefined) {
           var anchorOffset = sel.anchorOffset;
           var focusNode = sel.focusNode && $(sel.focusNode).closest('*[data-chunk-id]');
           var focusOffset = sel.focusOffset;
-          
+
           // If using the selection was not successful, try using the ranges instead. This should
           // work on Firefox.
           if (anchorNode == null || !anchorNode[0] || focusNode == null || !focusNode[0]) {
@@ -1919,20 +1919,20 @@ var AnnotatorUI = (function($, window, undefined) {
             focusNode = $(sel.getRangeAt(sel.rangeCount - 1).endContainer).closest('*[data-chunk-id]');
             focusOffset = sel.getRangeAt(sel.rangeCount - 1).endOffset;
           }
-          
+
           // If neither approach worked, give up - the user didn't click on selectable text.
           if (anchorNode == null || !anchorNode[0] || focusNode == null || !focusNode[0]) {
             clearSelection();
             stopArcDrag(target);
             return;
           }
-          
+
           var chunkIndexFrom = anchorNode && anchorNode.attr('data-chunk-id');
           var chunkIndexTo = focusNode && focusNode.attr('data-chunk-id');
-          
+
 // END WEBANNO EXTENSION - #316 Text selection behavior while dragging mouse
-          
-          
+
+
 // BEGIN WEBANNO EXTENSION - #316 Text selection behavior while dragging mouse
 // BEGIN WEBANNO EXTENSION - #724 - Cross-row selection is jumpy
           if (focusNode && anchorNode && focusNode[0] == anchorNode[0] && focusNode.hasClass('spacing')) {
@@ -2070,13 +2070,13 @@ var AnnotatorUI = (function($, window, undefined) {
             } else {
               // normal span select in rapid annotation mode: call
               // server for span type candidates
-              var spanText = data.text.substring(selectedFrom, selectedTo);
+              spanText = data.text.substring(selectedFrom, selectedTo);
               // TODO: we're currently storing the event to position the
               // span form using adjustToCursor() (which takes an event),
               // but this is clumsy and suboptimal (user may have scrolled
               // during the ajax invocation); think of a better way.
               lastRapidAnnotationEvent = evt;
-              dispatcher.post('ajax', [ { 
+              dispatcher.post('ajax', [ {
                               action: 'suggestSpanTypes',
                               collection: coll,
                               'document': doc,
@@ -2206,7 +2206,7 @@ var AnnotatorUI = (function($, window, undefined) {
             $parent.append($div);
             if (type.hotkey) {
               spanKeymap[type.hotkey] = 'span_' + type.type;
-              var name = $label.html();
+              name = $label.html();
               var replace = true;
               name = name.replace(new RegExp("(&[^;]*?)?(" + type.hotkey + ")", 'gi'),
                 function(all, entity, letter) {
@@ -2240,11 +2240,11 @@ var AnnotatorUI = (function($, window, undefined) {
             $top.append($input);
           } else if (attr.bool) {
             var escapedName = Util.escapeQuotes(attr.name);
-            var $input = $('<input type="checkbox" id="'+attrId+
-                           '" value="' + escapedType + 
+            $input = $('<input type="checkbox" id="'+attrId+
+                           '" value="' + escapedType +
                            '" category="' + category + '"/>');
             var $label = $('<label class="attribute_type_label" for="'+attrId+
-                           '" data-bare="' + escapedName + '">&#x2610; ' + 
+                           '" data-bare="' + escapedName + '">&#x2610; ' +
                            escapedName + '</label>');
             $top.append($input).append($label);
             $input.button();
@@ -2270,7 +2270,7 @@ var AnnotatorUI = (function($, window, undefined) {
         // disable not only categories of types (events or entities),
         // but the specific set of types that are incompatible with
         // the current attribute settings.
-        
+
         // just assume all attributes are event attributes
         // TODO: support for entity attributes
         // TODO2: the above comment is almost certainly false, check and remove
@@ -2568,7 +2568,7 @@ var AnnotatorUI = (function($, window, undefined) {
         return attributes;
       }
 
-      var spanAndAttributeTypesLoaded = function(_spanTypes, 
+      var spanAndAttributeTypesLoaded = function(_spanTypes,
                                                  _entityAttributeTypes,
                                                  _eventAttributeTypes,
                                                  _relationTypesHash) {
@@ -2577,8 +2577,8 @@ var AnnotatorUI = (function($, window, undefined) {
         eventAttributeTypes = _eventAttributeTypes;
         relationTypesHash = _relationTypesHash;
         // for easier access
-        allAttributeTypes = $.extend({}, 
-                                     entityAttributeTypes, 
+        allAttributeTypes = $.extend({},
+                                     entityAttributeTypes,
                                      eventAttributeTypes);
       };
 
@@ -2613,7 +2613,7 @@ var AnnotatorUI = (function($, window, undefined) {
           } else {
             args.edited = response.edited;
           }
-          var sourceData = response.annotations;
+          sourceData = response.annotations;
           sourceData.document = doc;
           sourceData.collection = coll;
           // this "prevent" is to protect against reloading (from the
