@@ -117,6 +117,14 @@ public class ManageUsersPage
             add(new LambdaAjaxButton<>("save", ManageUsersPage.this::actionSave));
 
             add(new LambdaAjaxLink("cancel", ManageUsersPage.this::actionCancel));
+            private List<Role> getRoles()
+            {
+                  List<Role> roles = new ArrayList<>(Arrays.asList(Role.values()));
+                  if (remoteApiProperties != null && !remoteApiProperties.isEnabled()) {
+                                    roles.remove(Role.ROLE_REMOTE);
+                           }
+                  return roles;
+             }
         }
 
         private void validateUsername(IValidatable<String> aValidatable)
@@ -293,12 +301,4 @@ public class ManageUsersPage
         return userRepository.isAdministrator(userRepository.getCurrentUser());
     }
 
-    private List<Role> getRoles()
-    {
-        List<Role> roles = new ArrayList<>(Arrays.asList(Role.values()));
-        if (remoteApiProperties != null && !remoteApiProperties.isEnabled()) {
-            roles.remove(Role.ROLE_REMOTE);
-        }
-        return roles;
-    }
 }
