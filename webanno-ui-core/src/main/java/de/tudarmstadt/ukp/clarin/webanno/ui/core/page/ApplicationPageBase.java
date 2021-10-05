@@ -138,7 +138,7 @@ public abstract class ApplicationPageBase
         }
         catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException
                 | InstantiationException e1) {
-            throw new RuntimeException(e1);
+            throw new MyOwnRuntimeException(e1);
         }
 
         feedbackPanel = new BootstrapFeedbackPanel("feedbackPanel");
