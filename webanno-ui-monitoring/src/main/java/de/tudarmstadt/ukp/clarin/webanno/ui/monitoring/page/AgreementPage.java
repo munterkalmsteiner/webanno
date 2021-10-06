@@ -436,7 +436,6 @@ public class AgreementPage
                             // is necessary because we expect the CAS lists for all users to have
                             // the same size
                             cases.add(null);
-                            continue nextDocument;
                         }
                     }
 
