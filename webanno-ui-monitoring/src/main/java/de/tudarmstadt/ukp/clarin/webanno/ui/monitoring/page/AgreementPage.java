@@ -106,16 +106,6 @@ public class AgreementPage
     private AgreementForm agreementForm;
     private WebMarkupContainer resultsContainer;
 
-    private void commonInit()
-    {
-        add(projectSelectionForm = new ProjectSelectionForm("projectSelectionForm"));
-
-        add(agreementForm = new AgreementForm("agreementForm", Model.of(new AgreementFormModel())));
-
-        add(resultsContainer = new WebMarkupContainer("resultsContainer"));
-        resultsContainer.setOutputMarkupPlaceholderTag(true);
-        resultsContainer.add(new EmptyPanel(MID_RESULTS));
-    }
 
     private class AgreementForm
         extends Form<AgreementFormModel>
