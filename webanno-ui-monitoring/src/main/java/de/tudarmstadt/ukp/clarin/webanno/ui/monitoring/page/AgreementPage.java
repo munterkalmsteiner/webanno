@@ -366,7 +366,6 @@ public class AgreementPage
 
         public Project project;
         public Map<String, Integer> annotatorsProgress = new TreeMap<>();
-        public Map<String, Integer> annotatorsProgressInPercent = new TreeMap<>();
     }
 
     private Optional<Project> getProjectFromParameters(StringValue projectParam)
