@@ -183,7 +183,7 @@ public class AgreementPage
             add(new Label("name",
                     PropertyModel.of(projectSelectionForm.getModel(), "project.name")));
 
-            add(featureList = new BootstrapSelect<AnnotationFeature>("feature"));
+            add(featureList = new BootstrapSelect("feature"));
             featureList.setOutputMarkupId(true);
             featureList.setChoices(LoadableDetachableModel.of(this::getEligibleFeatures));
             featureList.setChoiceRenderer(new LambdaChoiceRenderer<AnnotationFeature>(
