@@ -195,7 +195,7 @@ public class AgreementPage
             runCalculationsButton.triggerAfterSubmit();
             add(runCalculationsButton);
 
-            add(measureDropDown = new BootstrapSelect<Pair<String, String>>("measure",
+            add(measureDropDown = new BootstrapSelect<>("measure",
                     this::listMeasures)
             {
                 private static final long serialVersionUID = -2666048788050249581L;
