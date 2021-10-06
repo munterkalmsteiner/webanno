@@ -18,7 +18,6 @@
 package de.tudarmstadt.ukp.clarin.webanno.ui.monitoring.page;
 
 import static de.tudarmstadt.ukp.clarin.webanno.api.CasUpgradeMode.AUTO_CAS_UPGRADE;
-import static de.tudarmstadt.ukp.clarin.webanno.api.WebAnnoConst.PAGE_PARAM_PROJECT_ID;
 import static de.tudarmstadt.ukp.clarin.webanno.api.casstorage.CasAccessMode.SHARED_READ_ONLY_ACCESS;
 import static de.tudarmstadt.ukp.clarin.webanno.model.AnnotationDocumentState.FINISHED;
 import static de.tudarmstadt.ukp.clarin.webanno.model.PermissionLevel.ANNOTATOR;
@@ -56,7 +55,6 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.string.StringValue;
 import org.slf4j.Logger;
@@ -107,44 +105,6 @@ public class AgreementPage
     private ProjectSelectionForm projectSelectionForm;
     private AgreementForm agreementForm;
     private WebMarkupContainer resultsContainer;
-
-    public AgreementPage()
-    {
-        super();
-
-        commonInit();
-    }
-
-    public AgreementPage(final PageParameters aPageParameters)
-    {
-        super(aPageParameters);
-
-        commonInit();
-
-        projectSelectionForm.setVisibilityAllowed(false);
-
-        User user = userRepository.getCurrentUser();
-
-        // Get current project from parameters
-        StringValue projectParameter = aPageParameters.get(PAGE_PARAM_PROJECT_ID);
-        Optional<Project> project = getProjectFromParameters(projectParameter);
-
-        if (project.isPresent()) {
-            Project p = project.get();
-
-            // Check access to project
-            if (!(projectService.isCurator(p, user) || projectService.isManager(p, user))) {
-                error("You have no permission to access project [" + p.getId() + "]");
-                setResponsePage(getApplication().getHomePage());
-            }
-
-            projectSelectionForm.getModelObject().project = p;
-        }
-        else {
-            error("Project [" + projectParameter + "] does not exist");
-            setResponsePage(getApplication().getHomePage());
-        }
-    }
 
     private void commonInit()
     {
