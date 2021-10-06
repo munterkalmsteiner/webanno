@@ -319,7 +319,6 @@ public class AgreementPage
 
         AnnotationFeature feature;
 
-        Pair<String, String> measure;
     }
 
     private class ProjectSelectionForm
