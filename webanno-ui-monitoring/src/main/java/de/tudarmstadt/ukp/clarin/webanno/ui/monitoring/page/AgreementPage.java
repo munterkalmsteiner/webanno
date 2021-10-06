@@ -186,7 +186,7 @@ public class AgreementPage
             add(featureList = new BootstrapSelect<AnnotationFeature>("feature"));
             featureList.setOutputMarkupId(true);
             featureList.setChoices(LoadableDetachableModel.of(this::getEligibleFeatures));
-            featureList.setChoiceRenderer(new LambdaChoiceRenderer<AnnotationFeature>(
+            featureList.setChoiceRenderer(new LambdaChoiceRenderer<>(
                     feature -> feature.getLayer().getUiName() + " : " + feature.getUiName()));
             featureList.add(new LambdaAjaxFormComponentUpdatingBehavior("change",
                     this::actionSelectFeature));
