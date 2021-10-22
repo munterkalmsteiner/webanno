@@ -112,6 +112,8 @@ public class ProjectDetailPanel
         form.add(projectTypes = makeProjectTypeChoice());
 
         form.add(new LambdaAjaxButton<>("save", this::actionSave));
+        
+        form.add(new LambdaAjaxButton<>("clone", this::actionClone));
     }
 
     private DropDownChoice<String> makeProjectTypeChoice()
@@ -173,6 +175,39 @@ public class ProjectDetailPanel
         }
 
         Session.get().setMetaData(CURRENT_PROJECT, project);
+    }
+    
+    private void actionClone(AjaxRequestTarget aTarget, Form<Project> aForm)
+    {
+        aTarget.add(getPage());
+        // aTarget.add(((ApplicationPageBase) getPage()).getPageContent());
+        // aTarget.addChildren(getPage(), IFeedback.class);
+
+        Project project = aForm.getModelObject();
+        if (isNull(project.getId())) {
+            LOG.error("Create a project first to clone it");
+        }
+        else {
+            try {
+                String username = SecurityContextHolder.getContext().getAuthentication().getName();
+                projectService.createProject(project);
+
+                projectService.createProjectPermission(
+                        new ProjectPermission(project, username, PermissionLevel.MANAGER));
+                projectService.createProjectPermission(
+                        new ProjectPermission(project, username, PermissionLevel.CURATOR));
+                projectService.createProjectPermission(
+                        new ProjectPermission(project, username, PermissionLevel.ANNOTATOR));
+
+                projectService.initializeProject(project);
+            }
+            catch (I
+                error("Project repository path not found " + ":"
+                        + ExceptionUtils.getRootCauseMessage(e));
+                LOG.error("Project repository path not found " + ":"
+                        + ExceptionUtils.getRootCauseMessage(e));
+            }
+
     }
 
     private class ProjectNameValidator
