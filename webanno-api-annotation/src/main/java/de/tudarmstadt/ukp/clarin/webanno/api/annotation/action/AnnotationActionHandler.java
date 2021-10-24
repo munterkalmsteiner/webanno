@@ -17,6 +17,7 @@
  */
 package de.tudarmstadt.ukp.clarin.webanno.api.annotation.action;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import org.apache.uima.cas.CAS;
@@ -96,4 +97,6 @@ public interface AnnotationActionHandler
         throws IOException, AnnotationException;
 
     CAS getEditorCas() throws IOException;
+//added Action Handler for deletingAnnotation
+	void keyPressed(KeyEvent e); 
 }
