@@ -17,7 +17,7 @@
  */
 
 html, body {
-//  font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+  //  font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
   min-height: 100%;
   max-height: 100%;
   height: 100%;
@@ -40,22 +40,22 @@ html, body {
 
 .page-footer {
   flex: none;
-  min-height: $page-footer-height; 
+  min-height: $page-footer-height;
   height: $page-footer-height;
   overflow: hidden;
-  margin-top: 0px; 
-  margin-bottom: 0px; 
-  text-align: center; 
-  font-size: $font-size-sm; 
+  margin-top: 0px;
+  margin-bottom: 0px;
+  text-align: center;
+  font-size: $font-size-sm;
   padding-left: ceil(($grid-gutter-width / 2));
   padding-right: floor(($grid-gutter-width / 2));
   color: $card-color;
   background-color: $card-bg;
   border-color: $card-border-color;
   border-top: 1px solid;
-  
+
   a, a:hover, a:focus {
-  	color: black;
+    color: black;
   }
 }
 
@@ -66,7 +66,7 @@ html, body {
   min-width: 30%;
   max-height: calc(100vh - $page-footer-height - $page-header-height);
   overflow: auto;
- 
+
   ul.feedbackPanel {
     list-style:none;
   }
@@ -75,7 +75,7 @@ html, body {
     padding-top: 5px;
     padding-bottom: 5px;
     margin-bottom: 10px;
-  }  
+  }
 }
 
 .nav-pills img {
@@ -113,7 +113,7 @@ span.form-control {
 .w_flex .w_content_container > div { height: 100%; }
 .w_flex .w_flex_container { display: flex; flex-direction: column; height: 100%; }
 .w_flex .w_flex_content { flex: 1; overflow: auto; padding-top: 15px; padding-bottom: 15px; }
-.w_flex .w_flex_footer { flex: none; } 
+.w_flex .w_flex_footer { flex: none; }
 
 
 .min-content-height {
@@ -181,24 +181,25 @@ span.form-control {
 
 /* style for the warning popover in the page footer */
 .dev-warnings {
-	.alert {
-	  padding: 0px 5px 0px 5px;
-	  border: none;
-	  color: yellow;
-	  background-color: red;
-	}
-	
- .popover-content ul {
+  .alert {
+    padding: 0px 5px 0px 5px;
+    border: none;
+    color: yellow;
+    background-color: red;
+  }
+
+  .popover-content ul {
     padding-left: 18px;
   }
-  
+
   a, a:hover, a:focus {
-	  color: yellow;
+    color: yellow;
   }
 }
 
 /* Fixes to brat CSS */
 #commentpopup {
+  display: none;
   text-align: initial;
 }
 
@@ -210,49 +211,49 @@ a.disabled {
 
 
 .no-data-notice {
-	@extend .text-muted;
-	background-color: $card-cap-bg;
+  @extend .text-muted;
+  background-color: $card-cap-bg;
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   align-items: center;
-	min-height: 5rem;
-	text-align: center;
+  min-height: 5rem;
+  text-align: center;
 }
 
 .card-body {
-	.no-data-notice {
-		margin: -$card-spacer-x;
-		padding: $card-spacer-x;
-	}
+  .no-data-notice {
+    margin: -$card-spacer-x;
+    padding: $card-spacer-x;
+  }
 }
 
 
 // Make the JQuery context menu fit in nicely with the rest of the theme instead of showing up in
 // bright orange
 .ui-menu {
-	text-align: left;
-	
-	.ui-menu-item {
-		.ui-menu-item-wrapper.ui-state-active {
-			color: $component-active-color;
-			background-color: $component-active-bg;
-			background-image: none;
-		}
-	}
+  text-align: left;
+
+  .ui-menu-item {
+    .ui-menu-item-wrapper.ui-state-active {
+      color: $component-active-color;
+      background-color: $component-active-bg;
+      background-image: none;
+    }
+  }
 }
 
 .context-menu {
-	z-index: 999;
+  z-index: 999;
 }
 
 // A class for something that needs to be there in order to get events but should not actually be
 // visible to the user (i.e. use no space)
 .there-but-not-visible {
-	width: 1px; 
-	height: 1px; 
-	overflow: hidden; 
-	opacity: 0; 
-	margin-top: -1px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  margin-top: -1px;
 }
 
 /* -------------------------------------------------------------------------------------------------
@@ -260,7 +261,7 @@ a.disabled {
  */
 
 label.required {
-    color: red;
+  color: red;
 }
 
 /* -------------------------------------------------------------------------------------------------
@@ -279,11 +280,11 @@ label.required {
  * Menu
  */
 .locationbar {
-    text-align: left; 
-    /*color: maroon;*/
-    padding-left: 1em;
-    padding-right: 1em;
-    margin-top: 0.2em;
+  text-align: left;
+  /*color: maroon;*/
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-top: 0.2em;
 }
 
 /* -------------------------------------------------------------------------------------------------
@@ -292,29 +293,29 @@ label.required {
 
 /* Use for a horizontal list of icons */
 ul.horizontal{
-    margin:0px;
-    padding:0px;
+  margin:0px;
+  padding:0px;
 }
 
 ul.horizontal li{
-    margin-left:0.5em;
-    margin-right:0.5em;
-    display:inline-block;
-    text-align:center;
+  margin-left:0.5em;
+  margin-right:0.5em;
+  display:inline-block;
+  text-align:center;
 }
 
 a.menulink {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 a.menulink > span {
   font-size: 120%;
-    text-decoration: none;
-    color: white;
-    display: table-cell;
-    vertical-align: middle;
-    padding-left: 1em;
-    padding-right: 1em;
+  text-decoration: none;
+  color: white;
+  display: table-cell;
+  vertical-align: middle;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 /* -------------------------------------------------------------------------------------------------
@@ -322,57 +323,57 @@ a.menulink > span {
  */
 
 th{
-    padding:3px;
+  padding:3px;
 }
 
 tr.odd{
-    background:#EEEEEE;
+  background:#EEEEEE;
 }
 
 tr.even{
-    background:#DDDDDD;
+  background:#DDDDDD;
 }
 
 tr.odd:hover{
-    background:#CCCCAA;
+  background:#CCCCAA;
 }
 
 tr.even:hover{
-    background:#CCCCAA;
+  background:#CCCCAA;
 }
 
 .headers,
 .headers a:link,
 .headers a:visited{
-    background-color:#B90F22;
-    color:white;
-    vertical-align:bottom;
+  background-color:#B90F22;
+  color:white;
+  vertical-align:bottom;
 }
 
 tr.headers th.wicket_orderDown a::after {
-    font-family: "Font Awesome 5 Free";
-    content: "\f0dd";
-    display: inline-block;
-    padding-left: 3px;
-    vertical-align: middle;
-    font-weight: 900;
+  font-family: "Font Awesome 5 Free";
+  content: "\f0dd";
+  display: inline-block;
+  padding-left: 3px;
+  vertical-align: middle;
+  font-weight: 900;
 }
 
 tr.headers th.wicket_orderUp a::after {
-    font-family: "Font Awesome 5 Free";
-    content: "\f0de";
-    display: inline-block;
-    padding-left: 3px;
-    vertical-align: middle;
-    font-weight: 900;
+  font-family: "Font Awesome 5 Free";
+  content: "\f0de";
+  display: inline-block;
+  padding-left: 3px;
+  vertical-align: middle;
+  font-weight: 900;
 }
 
 div.navigatorLabel{
-    float:left;
+  float:left;
 }
 
 div.navigator{
-    text-align:right;
+  text-align:right;
 }
 
 /* -------------------------------------------------------------------------------------------------
@@ -383,11 +384,11 @@ div.left-tabpanel {
 }
 
 div.left-tabpanel div.tab-row {
-	flex: none;
+  flex: none;
   width: 39px;
-	background-color: #f5f5f5;
-	border: 1px solid #ddd;  
-	
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+
   display: flex;
   flex-direction: column;
 }
@@ -410,28 +411,28 @@ div.left-tabpanel div.tab-row li {
 }
 
 div.left-tabpanel div.tab-row li img {
-    display: block;
-    padding: 3px;
+  display: block;
+  padding: 3px;
 }
 
 div.left-tabpanel div.tab-row a:link,
 div.left-tabpanel div.tab-row a:visited {
-    display: block;
-    background:#f3f3f3;
-    padding: 0px;
-    margin: 0px;
-    text-decoration:none;
-    color:#666;
+  display: block;
+  background:#f3f3f3;
+  padding: 0px;
+  margin: 0px;
+  text-decoration:none;
+  color:#666;
 }
 
 div.left-tabpanel div.tab-row li.selected a:link,
 div.left-tabpanel div.tab-row a:visited.active {
-    background:#fff;
-    color:#000;
+  background:#fff;
+  color:#000;
 }
 
 div.left-tabpanel div.tab-row a:hover {
-    background:#fff;
+  background:#fff;
 }
 
 /* Remove left border from panel so it attaches nicely to the sidebar controls */
@@ -440,4 +441,24 @@ div.left-tabpanel div.tab-row a:hover {
   border-top-left-radius: 0px;
   border-bottom-left-radius:  0px;
   border-left: none;
+}
+.annotationpannel{
+  display: none;
+  position: absolute;
+}
+.editorpannel{
+  display: flex;
+}
+.layercard{
+  width: fit-content;
+  z-index: 10;
+}
+.layercard label{
+  min-width: min-content;
+}
+.layercard .col-sm-9{
+  max-width: max-content;
+}
+.annotationcard{
+  max-width: fit-content;
 }
