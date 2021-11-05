@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.regex.Pattern;
+import java.util.logging.Logger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.wicket.Component;
@@ -315,7 +316,7 @@ public abstract class WicketApplicationBase
         AnnotatedMountList mounts = new AnnotatedMountScanner().scanPackage("de.tudarmstadt.ukp");
         for (IRequestMapper mapper : mounts) {
             if (mapper instanceof HomePageMapper) {
-                System.out.println(mapper);
+                logger.log(mapper);
             }
         }
         mounts.mount(this);
