@@ -25,7 +25,6 @@ import static de.tudarmstadt.ukp.clarin.webanno.model.SourceDocumentState.NEW;
 import static java.nio.file.Files.newDirectoryStream;
 import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.toList;
-import static org.apache.commons.io.IOUtils.closeQuietly;
 import static org.apache.commons.io.IOUtils.copyLarge;
 import static org.apache.commons.lang3.time.DurationFormatUtils.formatDurationWords;
 import static org.hibernate.annotations.QueryHints.CACHEABLE;
@@ -157,7 +156,8 @@ public class ProjectServiceImpl
             log.info("Created project [{}]({})", aProject.getName(), aProject.getId());
         }
 
-        String path = repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER + "/"
+        String string = "/";
+		String path = repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER + string
                 + aProject.getId();
         FileUtils.forceMkdir(new File(path));
 
@@ -186,31 +186,7 @@ public class ProjectServiceImpl
             return;
         }
 
-        // This query is better because we do not inject strings into the query string, but it
-        // does not work on HSQLDB (on MySQL it seems to work).
-        // See: https://github.com/webanno/webanno/issues/1011
-        // String query =
-        // "SELECT new " + SourceDocumentStateStats.class.getName() + "(" +
-        // "COUNT(*) AS num, " +
-        // "SUM(CASE WHEN state = :an THEN 1 ELSE 0 END), " +
-        // "SUM(CASE WHEN (state = :aip OR state is NULL) THEN 1 ELSE 0 END), " +
-        // "SUM(CASE WHEN state = :af THEN 1 ELSE 0 END), " +
-        // "SUM(CASE WHEN state = :cip THEN 1 ELSE 0 END), " +
-        // "SUM(CASE WHEN state = :cf THEN 1 ELSE 0 END)) " +
-        // "FROM SourceDocument " +
-        // "WHERE project = :project";
-        //
-        // SourceDocumentStateStats stats = entityManager.createQuery(
-        // query, SourceDocumentStateStats.class)
-        // .setParameter("project", aProject)
-        // .setParameter("an", SourceDocumentState.NEW)
-        // .setParameter("aip", SourceDocumentState.ANNOTATION_IN_PROGRESS)
-        // .setParameter("af", SourceDocumentState.ANNOTATION_FINISHED)
-        // .setParameter("cip", SourceDocumentState.CURATION_IN_PROGRESS)
-        // .setParameter("cf", SourceDocumentState.CURATION_FINISHED)
-        // .getSingleResult();
 
-        // @formatter:off
         String query = 
                 "SELECT new " + SourceDocumentStateStats.class.getName() + "(" +
                 "COUNT(*), " +
@@ -360,32 +336,36 @@ public class ProjectServiceImpl
     @Override
     public File getProjectFolder(Project aProject)
     {
-        return new File(repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER
-                + "/" + aProject.getId());
+        String string = "/";
+		return new File(repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER
+                + string + aProject.getId());
     }
 
     @Override
     public File getProjectLogFile(Project aProject)
     {
-        return new File(repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER
-                + "/" + "project-" + aProject.getId() + ".log");
+        String string = "/";
+		return new File(repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER
+                + string + "project-" + aProject.getId() + ".log");
     }
 
     @Override
     public File getGuidelinesFolder(Project aProject)
     {
-        return new File(repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER
-                + "/" + aProject.getId() + "/" + GUIDELINES_FOLDER + "/");
+        String string = "/";
+		return new File(repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER
+                + string + aProject.getId() + string + GUIDELINES_FOLDER + string);
     }
 
     @Override
     public File getMetaInfFolder(Project aProject)
     {
-        return new File(repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER
-                + "/" + aProject.getId() + "/" + META_INF_FOLDER + "/");
+        String string = "/";
+		return new File(repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER
+                + string + aProject.getId() + string + META_INF_FOLDER + string);
     }
 
-    @Deprecated
+    @Deprecated(forRemoval=true)
     @Override
     @Transactional(noRollbackFor = NoResultException.class)
     public List<Authority> listAuthorities(User aUser)
@@ -396,8 +376,9 @@ public class ProjectServiceImpl
     @Override
     public File getGuideline(Project aProject, String aFilename)
     {
-        return new File(repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER
-                + "/" + aProject.getId() + "/" + GUIDELINES_FOLDER + "/" + aFilename);
+        String string = "/";
+		return new File(repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER
+                + string + aProject.getId() + string + GUIDELINES_FOLDER + string + aFilename);
     }
 
     @Override
@@ -473,9 +454,8 @@ public class ProjectServiceImpl
         String query = "SELECT DISTINCT u FROM User u, ProjectPermission pp "
                 + "WHERE pp.user = u.username " + "AND pp.project = :project "
                 + "ORDER BY u.username ASC";
-        List<User> users = entityManager.createQuery(query, User.class)
+        return entityManager.createQuery(query, User.class)
                 .setParameter("project", aProject).getResultList();
-        return users;
     }
 
     @Override
@@ -485,10 +465,9 @@ public class ProjectServiceImpl
         String query = "SELECT DISTINCT u FROM User u, ProjectPermission pp "
                 + "WHERE pp.user = u.username " + "AND pp.project = :project AND pp.level = :level "
                 + "ORDER BY u.username ASC";
-        List<User> users = entityManager.createQuery(query, User.class)
+        return entityManager.createQuery(query, User.class)
                 .setParameter("project", aProject).setParameter("level", aPermissionLevel)
                 .getResultList();
-        return users;
     }
 
     @Override
@@ -521,8 +500,9 @@ public class ProjectServiceImpl
     public void createGuideline(Project aProject, InputStream aIS, String aFileName)
         throws IOException
     {
-        String guidelinePath = repositoryProperties.getPath().getAbsolutePath() + "/"
-                + PROJECT_FOLDER + "/" + aProject.getId() + "/" + GUIDELINES_FOLDER + "/";
+        String string = "/";
+		String guidelinePath = repositoryProperties.getPath().getAbsolutePath() + string
+                + PROJECT_FOLDER + string + aProject.getId() + string + GUIDELINES_FOLDER + string;
         FileUtils.forceMkdir(new File(guidelinePath));
         try (FileOutputStream output = new FileOutputStream(new File(guidelinePath + aFileName))) {
 			copyLarge(aIS, output);
@@ -631,7 +611,8 @@ public class ProjectServiceImpl
         entityManager.remove(project);
 
         // remove the project directory from the file system
-        String path = repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER + "/"
+        String string = "/";
+		String path = repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER + string
                 + aProject.getId();
         try {
             FastIOUtils.delete(new File(path));
@@ -653,9 +634,10 @@ public class ProjectServiceImpl
     @Override
     public void removeGuideline(Project aProject, String aFileName) throws IOException
     {
-        FileUtils.forceDelete(
-                new File(repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER
-                        + "/" + aProject.getId() + "/" + GUIDELINES_FOLDER + "/" + aFileName));
+        String string = "/";
+		FileUtils.forceDelete(
+                new File(repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER
+                        + string + aProject.getId() + string + GUIDELINES_FOLDER + string + aFileName));
 
         try (MDC.MDCCloseable closable = MDC.putCloseable(Logging.KEY_PROJECT_ID,
                 String.valueOf(aProject.getId()))) {
@@ -682,22 +664,19 @@ public class ProjectServiceImpl
     public void savePropertiesFile(Project aProject, InputStream aIs, String aFileName)
         throws IOException
     {
-        String path = repositoryProperties.getPath().getAbsolutePath() + "/" + PROJECT_FOLDER + "/"
-                + aProject.getId() + "/" + FilenameUtils.getFullPath(aFileName);
+        String string = "/";
+		String path = repositoryProperties.getPath().getAbsolutePath() + string + PROJECT_FOLDER + string
+                + aProject.getId() + string + FilenameUtils.getFullPath(aFileName);
         FileUtils.forceMkdir(new File(path));
 
         File newTcfFile = new File(path, FilenameUtils.getName(aFileName));
         OutputStream os = null;
-        try {
-            os = new FileOutputStream(newTcfFile);
-            copyLarge(aIs, os);
-        }
-        finally {
-            closeQuietly(os);
-            closeQuietly(aIs);
-        }
-    }
-
+        try (FileOutputStream fileOutputStream = new FileOutputStream(newTcfFile)) {
+ 			os = fileOutputStream;
+ 		}
+ 		copyLarge(aIs, os);
+     }
+    
     @Override
     public List<Project> listAccessibleProjects(User user)
     {
@@ -854,7 +833,7 @@ public class ProjectServiceImpl
     }
 
     @Override
-    @Deprecated
+    @Deprecated (forRemoval=true) 
     public boolean isAdmin(Project aProject, User aUser)
     {
         return isManager(aProject, aUser);
@@ -1038,9 +1017,8 @@ public class ProjectServiceImpl
         String query = "SELECT DISTINCT p FROM Project p, ProjectPermission pp "
                 + "WHERE pp.project = p.id " + "AND pp.level = :annotator "
                 + "GROUP BY p.id HAVING count(*) > 1 " + "ORDER BY p.name ASC";
-        List<Project> projects = entityManager.createQuery(query, Project.class)
+        return entityManager.createQuery(query, Project.class)
                 .setParameter("annotator", PermissionLevel.ANNOTATOR).getResultList();
-        return projects;
     }
 
     @Override
@@ -1050,10 +1028,9 @@ public class ProjectServiceImpl
                 + "WHERE pp.project = p.id "
                 + "AND pp.user = :username AND (pp.level = :curator OR pp.level = :manager)"
                 + "ORDER BY p.name ASC";
-        List<Project> projects = entityManager.createQuery(query, Project.class)
+        return entityManager.createQuery(query, Project.class)
                 .setParameter("username", aUser.getUsername())
                 .setParameter("curator", PermissionLevel.CURATOR)
                 .setParameter("manager", PermissionLevel.MANAGER).getResultList();
-        return projects;
     }
 }
