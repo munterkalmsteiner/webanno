@@ -281,6 +281,7 @@ public abstract class WicketApplicationBase
 
     protected void initShowExceptionPage()
     {
+        @SuppressWarnings("deprecation")
         Properties settings = SettingsUtil.getSettings();
         if ("true".equalsIgnoreCase(settings.getProperty("debug.showExceptionPage"))) {
             getExceptionSettings()
@@ -290,6 +291,7 @@ public abstract class WicketApplicationBase
 
     protected void initLogoReference()
     {
+        @SuppressWarnings("deprecation")
         Properties settings = SettingsUtil.getSettings();
         String logoValue = settings.getProperty(SettingsUtil.CFG_STYLE_LOGO);
         if (StringUtils.isNotBlank(logoValue) && new File(logoValue).canRead()) {
@@ -348,6 +350,7 @@ public abstract class WicketApplicationBase
 
     protected void initServerTimeReporting()
     {
+        @SuppressWarnings("deprecation")
         Properties settings = SettingsUtil.getSettings();
         if (!DEVELOPMENT.equals(getConfigurationType())
                 && !"true".equalsIgnoreCase(settings.getProperty("debug.sendServerSideTimings"))) {
