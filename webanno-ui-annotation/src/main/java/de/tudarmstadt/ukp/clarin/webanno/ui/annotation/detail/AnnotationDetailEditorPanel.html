@@ -20,7 +20,17 @@
 <head>
 <wicket:head>
   <script type="text/javascript">
+  
   $(document).ready(function() {
+    
+    //ShortCut Delete Feature
+    window.onkeyup = function(e){
+      if(e.keyCode==46){
+        let delId=$("#btn-delete").children("button").attr("id");
+        var likeBtn = document.getElementById(delId);
+        likeBtn.click();
+        console.log('Annotation Deleted');
+      }
     // Based on this accepted answer of so
     // http://stackoverflow.com/questions/2335553/jquery-how-to-catch-enter-key-and-change-event-to-tab
     
@@ -86,10 +96,12 @@
           <div class="card-header">
             Annotation
             <div wicket:id="buttonContainer" class="actions">
-              <button wicket:id="delete" class="btn btn-danger" wicket:message="title:delete">
-                <i class="fas fa-trash"></i>
-                <span class="d-none d-xl-inline">&nbsp;<wicket:message key="delete"/></span>
-              </button>
+              <span id="btn-delete">
+                <button wicket:id="delete" class="btn btn-danger" wicket:message="title:delete">
+                  <i class="fas fa-trash"></i>
+                  <span class="d-none d-xl-inline">&nbsp;<wicket:message key="delete"/></span>
+                </button>
+              </span>
               <button wicket:id="reverse" class="btn btn-secondary" wicket:message="title:reverse">
                 <i class="fas fa-arrows-alt-h"></i>
                 <span class="d-none d-xl-inline">&nbsp;<wicket:message key="reverse"/></span>
