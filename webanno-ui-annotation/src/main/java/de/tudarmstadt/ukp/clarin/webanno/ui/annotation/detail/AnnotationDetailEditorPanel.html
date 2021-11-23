@@ -20,17 +20,17 @@
 <head>
 <wicket:head>
   <script type="text/javascript">
-    //ShortCut key 'Delete'to  Delete Annotatino
+  
+  $(document).ready(function() {
+    
+    //ShortCut Delete Feature
     window.onkeyup = function(e){
       if(e.keyCode==46){
-        var DelBtn = document.getElementById("id55");
-         DelBtn.click();
+        let delId=$("#btn-delete").children("button").attr("id");
+        var likeBtn = document.getElementById(delId);
+        likeBtn.click();
         console.log('Annotation Deleted');
       }
-
-
-    }
-  $(document).ready(function() {
     // Based on this accepted answer of so
     // http://stackoverflow.com/questions/2335553/jquery-how-to-catch-enter-key-and-change-event-to-tab
     
