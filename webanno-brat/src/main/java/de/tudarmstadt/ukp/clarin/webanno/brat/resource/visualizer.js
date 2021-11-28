@@ -720,7 +720,6 @@ var Visualizer = (function($, window, undefined) {
           } else {
             var id = comment[0];
             var trigger = triggerHash[id];
-            var eventDesc = data.eventDescs[id];
             var commentEntities =
                 trigger
                 ? trigger[1] // trigger: [span, ...]
@@ -753,7 +752,6 @@ var Visualizer = (function($, window, undefined) {
         // normalizations
         $.each(sourceData.normalizations, function(normNo, norm) {
           var id = norm[0];
-          var normType = norm[1];
           var target = norm[2];
           var refdb = norm[3];
           var refid = norm[4];
@@ -1295,7 +1293,6 @@ var Visualizer = (function($, window, undefined) {
             	  }
             	  else {
             		  // Calculate metrics
-            		  var start = new Date();
             	  
             		  charDirection = [];
     				  charAttrs = [];
@@ -1470,8 +1467,6 @@ var Visualizer = (function($, window, undefined) {
         var type = parsedSpec[0];
         if (type == 'none') return;
 
-        var width = 5;
-        var height = 5;
         var color = "black";
         if ($.isNumeric(parsedSpec[1]) && parsedSpec[2]) {
           if ($.isNumeric(parsedSpec[2]) && parsedSpec[3]) {
