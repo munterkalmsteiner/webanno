@@ -916,7 +916,7 @@ var Visualizer = (function($, window, undefined) {
         }); // eventDescs
 
         // highlighting
-        markedText = [];
+       var markedText = [];
         setMarked('edited'); // set by editing process
         setMarked('focus'); // set by URL
         setMarked('matchfocus'); // set by search process, focused match
@@ -1553,8 +1553,8 @@ Util.profileStart('init');
         
 // WEBANNO EXTENSION BEGIN - Flex-Layout - need to discover scrollbar width programmatically
         // establish the width according to the enclosing element
-        baseCanvasWidth = that.forceWidth || $svgDiv.width();
-        canvasWidth = that.forceWidth || ($svgDiv.width() - $.scrollbarWidth());
+        var baseCanvasWidth = that.forceWidth || $svgDiv.width();
+        var canvasWidth = that.forceWidth || ($svgDiv.width() - $.scrollbarWidth());
 // WEBANNO EXTENSION END - Flex-Layout - need to discover scrollbar width programmatically
         
         
@@ -2261,7 +2261,7 @@ Util.profileStart('chunks');
 // WEBANNO EXTENSION END
             var startDesc = openTextHighlights[textDesc[0]];
             delete openTextHighlights[textDesc[0]];
-            markedRow = [row, startDesc[3], textDesc[3], startDesc[4]];
+            var markedRow = [row, startDesc[3], textDesc[3], startDesc[4]];
             textMarkedRows.push(markedRow);
           });
 
