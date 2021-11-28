@@ -872,7 +872,6 @@ var Visualizer = (function($, window, undefined) {
 
         // assign fragments to appropriate chunks
         var currentChunkId = 0;
-        var chunk;
         $.each(sortedFragments, function(fragmentId, fragment) {
           while (fragment.to > (chunk = data.chunks[currentChunkId]).to) currentChunkId++;
           chunk.fragments.push(fragment);
@@ -897,8 +896,8 @@ var Visualizer = (function($, window, undefined) {
               return;
             }
             var there = target.headFragment.from + target.headFragment.to;
-            var dist = Math.abs(here - there);
-            var arc = new Arc(eventDesc, role, dist, eventNo);
+            var dist1 = Math.abs(here - there);
+            var arc = new Arc(eventDesc, role, dist1, eventNo);
             origin.totalDist += dist;
             origin.numArcs++;
             target.totalDist += dist;
@@ -939,7 +938,7 @@ var Visualizer = (function($, window, undefined) {
           // preliminary sort to assign heights for basic cases
           // (first round) and cases resolved in the previous
           // round(s).
-          $.each(data.chunks, function(chunkNo, chunk) {
+          $.each(data.chunks, function(chunkNo1, chunk) {
             // sort
             chunk.fragments.sort(fragmentComparator);
             // renumber
@@ -961,7 +960,7 @@ var Visualizer = (function($, window, undefined) {
 
         // Final sort of fragments in chunks for drawing purposes
         // Also identify the marked text boundaries regarding chunks
-        $.each(data.chunks, function(chunkNo, chunk) {
+        $.each(data.chunks, function(chunkNo2, chunk) {
           // and make the next sort take this into account. Note that this will
           // now resolve first-order dependencies between sort orders but not
           // second-order or higher.
@@ -1214,8 +1213,8 @@ var Visualizer = (function($, window, undefined) {
         // measuring goes on here
         var widths = {};
         $(textMeasureGroup).find('text').each(function(svgTextNo, svgText) {
-          var text = $(svgText).text();
-          widths[text] = this.getComputedTextLength();
+          var text1 = $(svgText).text();
+          widths[text1] = this.getComputedTextLength();
 
           if (callback) {
             $.each(textsHash[text], function(text, object) {
@@ -2510,8 +2509,8 @@ Util.profileStart('arcs');
             if (arrow) arrows[arrowHead] = arrow;
           }
           if (!arrows[labelArrowHead]) {
-            var arrow = makeArrow(defs, labelArrowHead);
-            if (arrow) arrows[labelArrowHead] = arrow;
+            var arrow1 = makeArrow(defs, labelArrowHead);
+            if (arrow1) arrows[labelArrowHead] = arrow;
           }
 
           // find the next height
