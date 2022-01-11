@@ -2,13 +2,13 @@
  * Licensed to the Technische Universität Darmstadt under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
- * regarding copyright ownership.  The Technische Universität Darmstadt 
+ * regarding copyright ownership.  The Technische Universität Darmstadt
  * licenses this file to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.
- *  
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -98,7 +98,7 @@ import de.tudarmstadt.ukp.clarin.webanno.support.wicket.WicketUtil;
 
 @Component(CasStorageService.SERVICE_NAME)
 public class CasStorageServiceImpl
-    implements CasStorageService
+        implements CasStorageService
 {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -132,9 +132,9 @@ public class CasStorageServiceImpl
      *            (optional) if present, CAS upgrades can be performed
      */
     public CasStorageServiceImpl(@Autowired(required = false) CasDoctor aCasDoctor,
-            @Autowired(required = false) AnnotationSchemaService aSchemaService,
-            @Autowired RepositoryProperties aRepositoryProperties,
-            @Autowired BackupProperties aBackupProperties)
+                                 @Autowired(required = false) AnnotationSchemaService aSchemaService,
+                                 @Autowired RepositoryProperties aRepositoryProperties,
+                                 @Autowired BackupProperties aBackupProperties)
     {
         casDoctor = aCasDoctor;
         schemaService = aSchemaService;
@@ -186,7 +186,7 @@ public class CasStorageServiceImpl
 
     @Override
     public void writeCas(SourceDocument aDocument, CAS aCas, String aUserName)
-        throws IOException, CasSessionException
+            throws IOException, CasSessionException
     {
         CasStorageSession session = CasStorageSession.get();
 
@@ -260,14 +260,14 @@ public class CasStorageServiceImpl
     }
 
     private void realWriteCas(SourceDocument aDocument, String aUserName, CAS aCas)
-        throws IOException
+            throws IOException
     {
         long t0 = currentTimeMillis();
 
         analyze(aDocument.getProject(), aDocument.getName(), aDocument.getId(), aUserName, aCas);
 
         log.debug("Preparing to update annotations for user [{}] on document [{}]({}) " //
-                + "in project [{}]({})", aUserName, aDocument.getName(), aDocument.getId(),
+                        + "in project [{}]({})", aUserName, aDocument.getName(), aDocument.getId(),
                 aDocument.getProject().getName(), aDocument.getProject().getId());
 
         File annotationFolder = getAnnotationFolder(aDocument);
@@ -312,8 +312,8 @@ public class CasStorageServiceImpl
             }
 
             log.error("Restoring previous annotations for user [{}] on document [{}]({}) in " //
-                    + "project [{}]({}) due exception when trying to write new "
-                    + "annotations: [{}]", aUserName, aDocument.getName(), aDocument.getId(),
+                            + "project [{}]({}) due exception when trying to write new "
+                            + "annotations: [{}]", aUserName, aDocument.getName(), aDocument.getId(),
                     aDocument.getProject().getName(), aDocument.getProject().getId(), oldVersion);
             try {
                 move(oldVersion.toPath(), currentVersion.toPath(), REPLACE_EXISTING);
@@ -353,7 +353,7 @@ public class CasStorageServiceImpl
     }
 
     private void manageHistory(File aCurrentVersion, SourceDocument aDocument, String aUserName)
-        throws IOException
+            throws IOException
     {
         if (backupProperties.getInterval() <= 0) {
             return;
@@ -456,14 +456,14 @@ public class CasStorageServiceImpl
 
     @Override
     public CAS readCas(SourceDocument aDocument, String aUsername)
-        throws IOException, CasSessionException
+            throws IOException, CasSessionException
     {
         return readOrCreateCas(aDocument, aUsername, NO_CAS_UPGRADE, null, EXCLUSIVE_WRITE_ACCESS);
     }
 
     @Override
     public CAS readCas(SourceDocument aDocument, String aUsername, CasAccessMode aAccessMode)
-        throws IOException, CasSessionException
+            throws IOException, CasSessionException
     {
         return readOrCreateCas(aDocument, aUsername,
                 SHARED_READ_ONLY_ACCESS.equals(aAccessMode) ? AUTO_CAS_UPGRADE : NO_CAS_UPGRADE,
@@ -472,8 +472,8 @@ public class CasStorageServiceImpl
 
     @Override
     public CAS readOrCreateCas(SourceDocument aDocument, String aUsername,
-            CasUpgradeMode aUpgradeMode, CasProvider aSupplier, CasAccessMode aAccessMode)
-        throws IOException, CasSessionException
+                               CasUpgradeMode aUpgradeMode, CasProvider aSupplier, CasAccessMode aAccessMode)
+            throws IOException, CasSessionException
     {
         CasStorageSession session = CasStorageSession.get();
 
@@ -669,8 +669,8 @@ public class CasStorageServiceImpl
     }
 
     private void repairAndUpgradeCasIfRequired(SourceDocument aDocument, String aUsername, CAS aCas,
-            CasUpgradeMode aUpgradeMode, RepairAndUpgradeFlags... aFlags)
-        throws IOException
+                                               CasUpgradeMode aUpgradeMode, RepairAndUpgradeFlags... aFlags)
+            throws IOException
     {
         try (CasStorageSession session = CasStorageSession
                 .openNested(contains(aFlags, ISOLATED_SESSION))) {
@@ -698,7 +698,7 @@ public class CasStorageServiceImpl
     /**
      * Fetches the CAS for the given user/document combination either from the storage or by using
      * the given {@link CasProvider} if it does not yet exist in the storage.
-     * 
+     *
      * @param aDocument
      *            a document.
      * @param aUsername
@@ -712,8 +712,8 @@ public class CasStorageServiceImpl
      *             if the CAS could not be obtained.
      */
     private CAS readOrCreateUnmanagedCas(SourceDocument aDocument, String aUsername,
-            CasProvider aSupplier, CasUpgradeMode aUpgradeMode)
-        throws IOException
+                                         CasProvider aSupplier, CasUpgradeMode aUpgradeMode)
+            throws IOException
     {
         long start = currentTimeMillis();
 
@@ -805,7 +805,7 @@ public class CasStorageServiceImpl
 
     @Override
     public boolean deleteCas(SourceDocument aDocument, String aUsername)
-        throws IOException, CasSessionException
+            throws IOException, CasSessionException
     {
         try (WithExclusiveAccess access = new WithExclusiveAccess(aDocument, aUsername)) {
             boolean fileWasDeleted = new File(getAnnotationFolder(aDocument), aUsername + ".ser")
@@ -854,7 +854,7 @@ public class CasStorageServiceImpl
      * <p>
      * <b>Note:</b> {@link CasDoctor} is an optional service. If no {@link CasDoctor} implementation
      * is available, this method returns without doing anything.
-     * 
+     *
      * @param aProject
      *            the project
      * @param aDocumentName
@@ -867,7 +867,7 @@ public class CasStorageServiceImpl
      *            the CAS object
      */
     private void analyzeAndRepair(Project aProject, String aDocumentName, long aDocumentId,
-            String aUsername, CAS aCas)
+                                  String aUsername, CAS aCas)
     {
         if (casDoctor == null) {
             return;
@@ -896,7 +896,7 @@ public class CasStorageServiceImpl
      * <p>
      * <b>Note:</b> {@link CasDoctor} is an optional service. If no {@link CasDoctor} implementation
      * is available, this method returns without doing anything.
-     * 
+     *
      * @param aProject
      *            the project
      * @param aDocumentName
@@ -909,7 +909,7 @@ public class CasStorageServiceImpl
      *            the CAS object
      */
     private void analyze(Project aProject, String aDocumentName, long aDocumentId, String aUsername,
-            CAS aCas)
+                         CAS aCas)
     {
         if (casDoctor == null) {
             return;
@@ -964,8 +964,8 @@ public class CasStorageServiceImpl
 
     @Override
     public void forceActionOnCas(SourceDocument aDocument, String aUser,
-            CasStorageServiceLoader aLoader, CasStorageServiceAction aAction, boolean aSave)
-        throws IOException
+                                 CasStorageServiceLoader aLoader, CasStorageServiceAction aAction, boolean aSave)
+            throws IOException
     {
         // Ensure that the CAS is not being re-written and temporarily unavailable while we check
         // upgrade it, then add this info to a mini-session to ensure that write-access is known
@@ -1014,7 +1014,7 @@ public class CasStorageServiceImpl
     }
 
     private class WithExclusiveAccess
-        implements AutoCloseable
+            implements AutoCloseable
     {
         private final CasKey key;
         private CasHolder holder;
@@ -1023,7 +1023,7 @@ public class CasStorageServiceImpl
         private String username;
 
         public WithExclusiveAccess(SourceDocument aDocument, String aUser)
-            throws CasSessionException
+                throws CasSessionException
         {
             key = new CasKey(aDocument, aUser);
             documentName = aDocument.getName();
@@ -1096,10 +1096,10 @@ public class CasStorageServiceImpl
         {
             return holder != null ? holder.getCas()
                     : CasStorageSession.get().getManagedState(documentId, username).orElseThrow(
-                            () -> new IllegalStateException("This should not happen. If "
-                                    + "the no holder is set, then the CAS must already be part of the "
-                                    + "session."))
-                            .getCas();
+                    () -> new IllegalStateException("This should not happen. If "
+                            + "the no holder is set, then the CAS must already be part of the "
+                            + "session."))
+                    .getCas();
         }
 
         public CasHolder getHolder()
@@ -1186,8 +1186,8 @@ public class CasStorageServiceImpl
      */
     public File getAnnotationFolder(long aProjectId, long aDocumentId) throws IOException
     {
-        File annotationFolder = new File(repositoryProperties.getPath(), "/" + PROJECT_FOLDER + "/"
-                + aProjectId + "/" + DOCUMENT_FOLDER + "/" + aDocumentId + "/" + ANNOTATION_FOLDER);
+        File annotationFolder = new File(repositoryProperties.getPath(), File.separator + PROJECT_FOLDER + File.separator
+                + aProjectId + File.separator + DOCUMENT_FOLDER + File.separator + aDocumentId + File.separator + ANNOTATION_FOLDER);
         FileUtils.forceMkdir(annotationFolder);
         return annotationFolder;
     }
