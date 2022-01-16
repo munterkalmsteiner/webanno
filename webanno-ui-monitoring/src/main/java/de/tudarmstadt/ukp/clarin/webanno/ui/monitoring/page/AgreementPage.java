@@ -360,7 +360,6 @@ public class AgreementPage
     static public class ProjectSelectionModel
         implements Serializable
     {
-        protected int totalDocuments;
 
         private static final long serialVersionUID = -1L;
 
