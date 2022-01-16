@@ -318,8 +318,6 @@ public class AgreementPage
         private static final long serialVersionUID = -1L;
 
         AnnotationFeature feature;
-
-        Pair<String, String> measure;
     }
 
     private class ProjectSelectionForm
