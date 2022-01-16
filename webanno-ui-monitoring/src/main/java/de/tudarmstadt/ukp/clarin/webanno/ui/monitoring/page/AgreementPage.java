@@ -365,7 +365,6 @@ public class AgreementPage
         private static final long serialVersionUID = -1L;
 
         public Project project;
-        public Map<String, Integer> annotatorsProgress = new TreeMap<>();
         public Map<String, Integer> annotatorsProgressInPercent = new TreeMap<>();
     }
 
