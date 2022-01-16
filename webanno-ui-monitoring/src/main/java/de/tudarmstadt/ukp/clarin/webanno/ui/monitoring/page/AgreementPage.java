@@ -115,37 +115,6 @@ public class AgreementPage
         commonInit();
     }
 
-    public AgreementPage(final PageParameters aPageParameters)
-    {
-        super(aPageParameters);
-
-        commonInit();
-
-        projectSelectionForm.setVisibilityAllowed(false);
-
-        User user = userRepository.getCurrentUser();
-
-        // Get current project from parameters
-        StringValue projectParameter = aPageParameters.get(PAGE_PARAM_PROJECT_ID);
-        Optional<Project> project = getProjectFromParameters(projectParameter);
-
-        if (project.isPresent()) {
-            Project p = project.get();
-
-            // Check access to project
-            if (!(projectService.isCurator(p, user) || projectService.isManager(p, user))) {
-                error("You have no permission to access project [" + p.getId() + "]");
-                setResponsePage(getApplication().getHomePage());
-            }
-
-            projectSelectionForm.getModelObject().project = p;
-        }
-        else {
-            error("Project [" + projectParameter + "] does not exist");
-            setResponsePage(getApplication().getHomePage());
-        }
-    }
-
     private void commonInit()
     {
         add(projectSelectionForm = new ProjectSelectionForm("projectSelectionForm"));
