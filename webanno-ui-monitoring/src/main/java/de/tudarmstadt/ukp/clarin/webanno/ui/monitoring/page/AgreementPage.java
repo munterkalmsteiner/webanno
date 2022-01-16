@@ -107,13 +107,7 @@ public class AgreementPage
     private ProjectSelectionForm projectSelectionForm;
     private AgreementForm agreementForm;
     private WebMarkupContainer resultsContainer;
-
-    public AgreementPage()
-    {
-        super();
-
-        commonInit();
-    }
+    
 
     public AgreementPage(final PageParameters aPageParameters)
     {
