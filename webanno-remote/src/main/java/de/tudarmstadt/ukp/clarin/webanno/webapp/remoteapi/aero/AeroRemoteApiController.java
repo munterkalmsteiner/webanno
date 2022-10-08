@@ -621,6 +621,10 @@ public class AeroRemoteApiController
 
                 return new ResponseEntity<>(resource, httpHeaders, OK);
             }
+            catch(Exception ex){
+            	throw new IllegalObjectStateException(
+                        "There is a problem of Loading the File into memory Error Code:[%s] ", ex.getMessage());
+            }
             finally {
                 if (exportedFile != null) {
                     FileUtils.forceDelete(exportedFile);
